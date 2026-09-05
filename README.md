@@ -3,7 +3,7 @@
 横浜の暮らしを、身近な数字から。18区の人口と世帯の変化を、公式統計と原典付きで調べる市民向けの公共情報基盤。
 Cloudflareの静的配信を中心に、閲覧時のDB・AI実行をなくして運用費を抑える。
 
-[公開サイト](https://yokohama-intelligence.toyofukux.workers.dev) · [公開MCP](https://yokohama-intelligence-mcp.toyofukux.workers.dev/mcp)
+[公開サイト](https://open.yokohama) · [公開MCP](https://yokohama-intelligence-mcp.toyofukux.workers.dev/mcp)
 
 **公開β**。現在は2024年1月〜2026年8月の32か月、横浜市と18区、9指標・5,472観測値。
 人口・世帯・密度の3つの問い、18区ページ、比較・検索、CSV/JSON、公開MCPを実装した。

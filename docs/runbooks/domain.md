@@ -1,6 +1,6 @@
 # open.yokohama を Cloudflare に接続する
 
-確認日: 2026-09-05。これは設定手順書であり、購入・DNS変更・独自ドメイン公開は未実施。
+確認日: 2026-09-05。実際の公開状態と検証結果は `docs/STATUS.md` を参照する。
 購入・更新はPorkbun、DNSとサイト配信はCloudflareで管理する。登録会社の移管は不要。
 
 ## 1. 準備
@@ -34,10 +34,19 @@ Activeになった後のDNSレコード編集はCloudflareで行う。Porkbunに
 
 ## 4. Webサイトに接続する
 
-1. Cloudflareの **Workers & Pages → yokohama-intelligence** を開く。
-2. **Settings → Domains & Routes → Add → Custom Domain** を選ぶ。
-3. `open.yokohama` を入力し **Add Custom Domain** を実行する。
+接続設定はGitの `wrangler.jsonc` を正本にする。現在は以下の設定を登録済み。
+
+```json
+"routes": [{ "pattern": "open.yokohama", "custom_domain": true }]
+```
+
+1. ドメインがActiveであることを確認する。
+2. `pnpm verify` で検証する。
+3. 次節のコマンドでビルド・デプロイする。WranglerがCustom Domainを作成する。
 4. 証明書の発行と有効化を待ち、`https://open.yokohama/` を開く。
+
+コンソールの **Workers & Pages → yokohama-intelligence → Settings → Domains & Routes** は確認用に使う。
+先に画面で接続した場合も、同じ設定をGitへ反映してから次のデプロイを行う。
 
 Custom DomainがDNSと証明書を作る。`workers.dev` 宛てのCNAMEを手動で作る必要はない。
 既存の同名CNAMEがあると追加できない。新規購入時の駐車ページ用と確認できたものだけ除去する。
@@ -54,14 +63,10 @@ SITE_URL=https://open.yokohama pnpm deploy
 TEST_BASE_URL=https://open.yokohama pnpm test:e2e
 ```
 
-次回デプロイでも戻らないよう、`apps/web/astro.config.mjs` の既定 `site` を新URLに変更するか、
-すべての公開ビルドで `SITE_URL` を設定する。README・開発者向け案内のURLも更新する。
-画面で設定した接続は、ルートの `wrangler.jsonc` に以下の項目を追記して管理する。
-既存の `assets` や `name` は維持する。設定を記録してから再デプロイする。
-
-```json
-"routes": [{ "pattern": "open.yokohama", "custom_domain": true }]
-```
+`apps/web/astro.config.mjs` の既定 `site` とサイトマップのフォールバックは新URLへ更新済み。
+通常の `pnpm deploy` でも新URLを使う。別ホストへ複製する場合だけ `SITE_URL` を上書きし、
+`wrangler.jsonc` のWorker名・ドメインも複製先に合わせる。
+`workers_dev: true` により従来URLも疎通確認用に維持する。canonicalは新ドメインを参照する。
 
 ## 6. サブドメインを追加する場合
 

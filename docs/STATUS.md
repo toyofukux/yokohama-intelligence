@@ -78,3 +78,16 @@
 - 国立天文台の5日分との誤差3分未満を確認。演出用近似で、全日程の精度保証ではない。
 - Web version: `3cdbe1aa-9bc2-4a22-a1cd-2ed87d185092`。
 - 追加の外部API通信・位置情報取得・サーバー処理なし。設定と制約は `docs/THEMES.md`。
+
+## 2026-09-05: open.yokohama 接続準備（DNS競合で保留）
+
+- Cloudflare APIでゾーンが正しいアカウントに属し `active` と確認。公開NSも指定値と一致。
+- `wrangler.jsonc` に `open.yokohama` のCustom Domainを追加。接続はGitを正本に管理する。
+- Astroの既定URL、サイトマップ、READMEを新URLに更新。旧 `workers.dev` は維持。
+- `pnpm verify` 合格。更新後の旧公開URLでPC/スマホ20件のE2E合格。
+- デプロイでWeb本体は更新されたが、Custom Domainはエラー100117で未接続。新ドメインでのE2Eは未実施。
+- ユーザー確認の既存Aレコード2件（207.207.210.107 / 207.207.210.229）が接続に競合。
+- 現在のWrangler認証はDNS一覧の取得が権限エラー。こちらからDNS削除はしていない。
+- 再開: ユーザーが上記Aレコードを削除後、`pnpm exec wrangler deploy --config wrangler.jsonc`。
+- 接続後は `TEST_BASE_URL=https://open.yokohama pnpm test:e2e`、canonical・sitemap・robots・HTTPSを確認する。
+- `www` とワイルドカードはPorkbun向けのまま。MCPの接続先も従来URLのまま。
