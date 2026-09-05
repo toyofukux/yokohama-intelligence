@@ -15,8 +15,7 @@ async function fetchBounded(url: string, maxBytes: number) {
     redirect: 'error',
     signal: AbortSignal.timeout(30000),
     headers: {
-      'User-Agent':
-        'YokohamaIntelligence/0.1 (+https://github.com/toyofukux/yokohama-intelligence)',
+      'User-Agent': 'OpenYokohama/0.1 (+https://github.com/toyofukux/open-yokohama)',
     },
   });
   if (!response.ok || !response.body) throw new Error(`Source fetch failed: ${response.status}`);

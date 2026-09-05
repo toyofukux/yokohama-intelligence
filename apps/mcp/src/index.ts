@@ -20,7 +20,7 @@ const result = (value: unknown) => ({
   content: [{ type: 'text' as const, text: JSON.stringify(value) }],
 });
 export function createServer() {
-  const server = new McpServer({ name: 'yokohama-intelligence', version: '0.1.0' });
+  const server = new McpServer({ name: 'open-yokohama', version: '0.1.0' });
   server.registerTool(
     'get_metric',
     {

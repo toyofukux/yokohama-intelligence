@@ -44,12 +44,12 @@ const path = Astro.url.pathname;
       name="viewport"
       content="width=device-width, initial-scale=1"
     />
-    <title>{title} | 横浜を知る</title><meta
+    <title>{title} | Open Yokohama</title><meta
       name="description"
       content={description}
     />
     <meta name="theme-color" content={themeColors[themeConfig.defaultTheme]} />
-    <meta property="og:title" content={`${title} | 横浜を知る`} /><meta
+    <meta property="og:title" content={`${title} | Open Yokohama`} /><meta
       property="og:description"
       content={description}
     /><meta property="og:type" content="website" />
@@ -69,14 +69,15 @@ const path = Astro.url.pathname;
     <a class="skip" href="#main">本文へ移動</a>
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href="/" aria-label="横浜を知る ホーム"
+        <a class="brand" href="/" aria-label="Open Yokohama ホーム"
           ><svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"
             ><path
               d="M5 29h30M9 24h22M20 5v19M20 7L8 24h12M23 12l8 12"
               fill="none"
               stroke="currentColor"
               stroke-width="2"></path></svg
-          ><span>横浜を知る<small>YOKOHAMA INTELLIGENCE</small></span></a
+          ><span>Open Yokohama<small>横浜を知る、暮らしが見える。</small></span
+          ></a
         >
         <nav aria-label="メインメニュー">
           {
@@ -108,7 +109,7 @@ const path = Astro.url.pathname;
     <footer class="site-footer">
       <div class="container footer-grid">
         <div>
-          <strong>横浜を知る</strong><p>
+          <strong>Open Yokohama</strong><p>
             同じまちを、同じ根拠から考える。
           </p><small
             >市民による非公式のオープンソースプロジェクト。<br
@@ -119,9 +120,7 @@ const path = Astro.url.pathname;
             >データの見方・更新状況</a
           ><a href="/about/#corrections">誤りを知らせる</a><a
             href="/developers/">開発者向け・MCP</a
-          ><a href="https://github.com/toyofukux/yokohama-intelligence"
-            >GitHub ↗</a
-          >
+          ><a href="https://github.com/toyofukux/open-yokohama">GitHub ↗</a>
         </div>
       </div>
     </footer>
