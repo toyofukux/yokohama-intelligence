@@ -29,7 +29,12 @@
 - `pnpm audit`: 既知の脆弱性0（確認時点）。秘密パターン検査で検出0。
 - スクリーンショットでPCとスマホの表示を確認。実装者による検証であり、独立レビューではない。
 
-公開URLでの検証、CI結果、最終Worker versionは公開完了後に本書へ追記する。
+- 公開Webでも12件のE2Eが合格。低速回線で比較選択が先行する不具合を修正し、回帰テストを追加した。
+- 公開MCPでもSDK接続検証に合格。
+- GitHubをPUBLICに変更し、初期実装commit `d48e5fa2a06fee011b679ed78b9761b97b8f6682` をmainへpush済み。
+- Web version: `e24a0a72-85f2-480f-9def-8254f99525e1`。
+- MCP version: `b8830f57-3017-4f40-a54e-dac30c500dd2`。
+- CI: https://github.com/toyofukux/yokohama-intelligence/actions/runs/33951787795 （初期実装commitで全ジョブ合格）。
 
 ## 残る開発・運用
 
@@ -45,5 +50,9 @@
 
 ## 再開
 
-正本: `docs/PLAN.md`。数値更新: `docs/runbooks/data.md`。
+正本: `docs/PLAN.md`。次の収集先と検証条件: `docs/DATA-ROADMAP.md`。数値更新: `docs/runbooks/data.md`。
 外部参照repoは読み取りのみで変更していない。DRAFT.mdも原文のまま。
+
+## ローカル処理
+
+実装中に使用した開発サーバーは作業終了時に停止する。再開はREADMEのコマンドを使う。
