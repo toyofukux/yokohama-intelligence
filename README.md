@@ -9,7 +9,7 @@ Cloudflareの静的配信を中心に、閲覧時のDB・AI実行をなくして
 人口・世帯・密度の3つの問い、18区ページ、比較・検索、CSV/JSON、公開MCPをご利用いただけます。
 予算・政策の効果・年齢別人口・都市比較は未提供です。市民利用テストも未実施です。
 
-[開発計画](docs/PLAN.md) · [実装・検証・公開状態](docs/STATUS.md) · [設計判断](docs/adr/0001-static-public-data-core.md)
+[構想](docs/VISION.md) · [開発計画](docs/PLAN.md) · [実装・検証・公開状態](docs/STATUS.md) · [設計判断](docs/adr/0001-static-public-data-core.md)
 
 ## 動かす
 

@@ -4,7 +4,7 @@
 公開接続先: `https://open-yokohama-mcp.toyofukux.workers.dev/mcp`。
 
 Streamable HTTP、セッションなし、公開データ読み取りのみです。
-MCPのバージョン交渉は公式TypeScript SDKに委ねています。DRAFTにある日付を実装済みの仕様としてハードコードしません。
+MCPのバージョン交渉は公式TypeScript SDKに委ねています。初期構想にある日付を実装済みの仕様としてハードコードしません。
 
 ツール: `search`, `get_metric`, `get_metric_series`, `compare_geographies`, `get_source`。
 リソース: `yokohama://city`, `yokohama://wards/kohoku` 等。
