@@ -1,0 +1,119 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Harbor from "../components/Harbor.astro";
+import { data, latest, number, wards } from "../data";
+import { issues } from "../../../../packages/core/issues";
+const population = latest(data, "141003", "population");
+const households = latest(data, "141003", "households");
+const change = latest(data, "141003", "population_change");
+---
+
+<Layout title="横浜の暮らしを、身近な数字から">
+  <div class="container">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">
+          OUR CITY, IN CONTEXT <span class="beta">公開β</span>
+        </p><h1>横浜の暮らしを、<br />身近な数字から。</h1><p class="intro">
+          住んでいる区のこと。これからのまちのこと。<br
+          />気になる問いを、横浜市のデータから一緒に確かめよう。
+        </p><a class="action" href="/wards/"
+          >自分の区を見てみる <span aria-hidden="true">→</span></a
+        >
+      </div><Harbor />
+    </section>
+    <div class="meta-line">
+      <span><span class="dot"></span>横浜市の公式統計をもとに掲載</span><span
+        >掲載する最新の統計：{population.period.replaceAll("-", ".")}</span
+      >
+    </div>
+    <section aria-label="横浜の基本データ" class="stats">
+      <div class="stat">
+        <div class="stat-label">横浜に暮らす人</div><div class="stat-number">
+          {number(population.value)}<span>人</span>
+        </div><div class="stat-footer">
+          推計人口・{population.period}現在 <a
+            href={`/sources/#s-${population.sourceId}`}>出典 ↗</a
+          >
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">横浜の世帯数</div><div class="stat-number">
+          {number(households.value)}<span>世帯</span>
+        </div><div class="stat-footer">
+          {households.period}現在 <a href={`/sources/#s-${households.sourceId}`}
+            >出典 ↗</a
+          >
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">届出による前月の人口増減</div><div
+          class="stat-number"
+        >
+          {change.value > 0 ? "+" : ""}{number(change.value)}<span>人</span>
+        </div><div class="stat-footer">
+          人口の残高の差と異なる場合があります <a href="/sources/#definitions"
+            >定義 ↗</a
+          >
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-head">
+        <h2>暮らしにつながる、まちの問い</h2><a href="/issues/"
+          >すべての問いを見る →</a
+        >
+      </div><div class="cards">
+        {
+          issues.map((issue, i) => (
+            <a class="card card-link" href={`/issues/${issue.slug}/`}>
+              <>
+                <span
+                  class:list={[
+                    "tag",
+                    i === 1 ? "orange" : i === 2 ? "blue" : "",
+                  ]}
+                >
+                  {issue.category}
+                </span>
+                <h3>{issue.title}</h3>
+                <p>{issue.summary}</p>
+                <div class="card-bottom">
+                  <>
+                    <span>公式統計から読む · 3分</span>
+                    <span aria-hidden="true">↗</span>
+                  </>
+                </div>
+              </>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+    <section class="ward-panel">
+      <div>
+        <p class="eyebrow">YOUR NEIGHBORHOOD</p><h2>
+          あなたの区から、<br />横浜を見てみよう。
+        </h2><p class="small muted">
+          人口や世帯数の変化を、同じものさしで。<br
+          />18区それぞれのページがあります。
+        </p><a class="small" href="/wards/">18区を並べて比較する →</a>
+      </div><div class="ward-links">
+        {wards.map((w) => <a href={`/wards/${w.slug}/`}>{w.name}</a>)}
+      </div>
+    </section>
+    <section class="section">
+      <div class="split">
+        <div>
+          <h2>数字の先に、根拠がある。</h2><p class="muted small">
+            数値の出典・時点・定義を表示しています。解説は、分かっていることと、まだ分からないことを分けて読み進められます。
+          </p><a class="small" href="/sources/">データの確かめ方 →</a>
+        </div><div class="note">
+          <strong>いま読めること</strong><p style="margin:8px 0 0">
+            公開βでは人口と世帯の統計から始めています。子育て・交通・防災・予算へ、根拠を確認しながら広げていきます。
+          </p>
+        </div>
+      </div>
+    </section>
+  </div></Layout
+>

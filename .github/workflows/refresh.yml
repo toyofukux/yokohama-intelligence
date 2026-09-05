@@ -1,0 +1,35 @@
+name: Check official data updates
+on:
+  schedule:
+    - cron: '25 21 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm data:refresh
+      - run: pnpm data:validate
+      - name: Detect pending release
+        run: |
+          if ! git diff --quiet -- data/published/; then
+            echo '::error::New validated data awaits release. Download the candidate artifact and follow docs/runbooks/data.md.'
+            exit 1
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: data-update-candidate
+          path: |
+            artifacts/
+            data/
+          retention-days: 30

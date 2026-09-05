@@ -1,0 +1,41 @@
+name: Verify public release
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm verify
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+      - run: pnpm exec wrangler deploy --config apps/mcp/wrangler.jsonc --dry-run
+      - name: Live MCP verification
+        run: |
+          pnpm mcp:dev > /tmp/yokohama-mcp.log 2>&1 &
+          YOKOHAMA_MCP_PID=$!
+          trap 'kill "$YOKOHAMA_MCP_PID" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8789/health >/dev/null; then break; fi
+            sleep 1
+          done
+          pnpm test:mcp
+      - run: pnpm audit --prod --audit-level high
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: verification-failures
+          path: |
+            test-results/
+            artifacts/

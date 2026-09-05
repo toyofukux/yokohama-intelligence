@@ -1,0 +1,108 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { data, metrics } from "../data";
+const snapshots = data.snapshots.toReversed();
+---
+
+<Layout title="データと出典"
+  ><div class="container narrow section prose">
+    <p class="breadcrumb"><a href="/">ホーム</a> / データと出典</p><p
+      class="eyebrow"
+    >
+      FOLLOW THE EVIDENCE
+    </p><h1 class="page-title">数字の根拠を、確かめる。</h1><p class="lede">
+      横浜市が公表した統計を、時点と定義をそろえて掲載しています。原本ファイルも取得したまま保存しています。
+    </p>
+    <div class="note">
+      <strong>収録範囲</strong><br />{data.snapshots.length}か月 × 横浜市と18区
+      × {metrics.length}指標。<br />公開データ作成日：{
+        data.generatedAt.slice(0, 10)
+      }。数値は機械照合済みで、人間による全件確認は未実施です。
+    </div>
+    <h2>更新と訂正について</h2><p>
+      原典の取得に失敗した場合、掲載中のデータを保持します。新しい統計の取り込みは検査を通して反映します。過去の値の訂正は確認が終わるまで公開を止めます。
+    </p><p>
+      統計の時点と取得日は別です。「取得日が新しい」ことは「統計の時点が新しい」ことを意味しません。元資料の公表日を確定できない場合は記録上「不明」とします。
+    </p>
+    <h2 id="definitions">指標の定義</h2>{
+      metrics.map((m) => (
+        <details>
+          <>
+            <summary>
+              {m.name}（{m.unit}）
+            </summary>
+            <p>{m.definition}</p>
+          </>
+        </details>
+      ))
+    }
+    <h2>機械照合で確かめること</h2><ul>
+      <li>原本ファイルと保存ファイルの一致、原本と掲載数値の一致</li><li>
+        市と18区がそろっていること、男女計と総人口の一致
+      </li><li>人口・世帯数・届出増減について、18区の合計と市の値の一致</li><li>
+        時点、自治体コード、単位、欠測、重複、人口密度の整合
+      </li>
+    </ul><p>
+      原典そのものの誤りや、政策の因果関係を自動的に証明するものではありません。
+    </p>
+    <h2>原典一覧</h2>{
+      snapshots.map((s) => {
+        const period = data.observations.find(
+          (o) => o.sourceId === s.id,
+        )!.period;
+        return (
+          <section
+            class="box"
+            id={`s-${s.id}`}
+            style="margin:18px 0;scroll-margin-top:20px"
+          >
+            <>
+              <h3>
+                {period} · {s.title}
+              </h3>
+              <p class="small">
+                提供：横浜市 ／ ライセンス：CC BY 4.0
+                <br />
+                取得：{s.retrievedAt.slice(0, 10)} ／ 公表日：不明
+                <br />
+                出典行はヘッダーを1行目として数えます。
+              </p>
+              <div class="pill-list">
+                <>
+                  <a href={s.url}>市の原本CSV ↗</a>
+                  <a href={`/data/raw/${s.id}.csv`} download>
+                    取得時点の原本 ↓
+                  </a>
+                  <a href={s.sourcePage}>掲載ページ ↗</a>
+                </>
+              </div>
+              <details>
+                <>
+                  <summary class="small">原本の識別情報</summary>
+                  <p class="small">
+                    SHA-256:{" "}
+                    <>
+                      <code>{s.sha256}</code>
+                      <br />
+                    </>
+                    パーサー：{s.parserVersion}
+                  </p>
+                </>
+              </details>
+            </>
+          </section>
+        );
+      })
+    }
+    <h2>再利用</h2><p>
+      横浜市の<a href={snapshots[0].sourcePage}>オープンデータ</a>（<a
+        href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a
+      >）を加工して作成しています。市による推奨・承認を意味しません。
+    </p><div class="pill-list">
+      <a href="/data/population.csv" download>加工済みCSV</a><a
+        href="/data/population.json"
+        download>出典付きJSON</a
+      >
+    </div>
+  </div></Layout
+>

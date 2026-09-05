@@ -1,0 +1,24 @@
+name: 数字・説明の訂正
+description: 原典と照合できる形で誤りを知らせる
+title: '[訂正] '
+labels: []
+body:
+  - type: input
+    id: page
+    attributes:
+      label: ページのURL
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: 該当箇所と誤りの内容
+      description: 公開されるため、個人情報を書かないでください。
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 正しい情報の出典・該当箇所
+    validations:
+      required: true

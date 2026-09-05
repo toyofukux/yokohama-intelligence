@@ -1,0 +1,111 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { data, wards, metrics, latest, compare, number } from "../../data";
+const current = latest(data, "141003", "population").period;
+const periods = [...new Set(data.observations.map((o) => o.period))]
+  .sort()
+  .reverse();
+const rows = compare(data, "population", current);
+const compact = data.observations.map((o) => [
+  o.geography,
+  o.metric,
+  o.period,
+  o.value,
+]);
+---
+
+<Layout title="18区を比べる"
+  ><div class="container section">
+    <p class="breadcrumb"><a href="/">ホーム</a> / 18区を比べる</p><p
+      class="eyebrow"
+    >
+      18 WARDS, ONE CITY
+    </p><h1 class="page-title">同じ横浜。違うまちの姿。</h1><p class="lede">
+      指標と時点をそろえて、18区を見比べます。区名を押すと、その区の推移も確かめられます。
+    </p>
+    <div class="controls">
+      <label
+        >比べる指標<select id="metric" disabled
+          >{
+            metrics.map((m) => (
+              <option value={m.id}>
+                {m.name}（{m.unit}）
+              </option>
+            ))
+          }</select
+        ></label
+      ><label
+        >統計の時点<select id="period" disabled
+          >{periods.map((p) => <option value={p}>{p}</option>)}</select
+        ></label
+      >
+    </div>
+    <p id="definition" class="note">{metrics[0].definition}</p>
+    <div class="table-wrap">
+      <table>
+        <caption id="comparison-caption"
+          >{current}時点の人口（人）。人数の多い順。</caption
+        ><thead
+          ><tr
+            ><th scope="col">区</th><th
+              scope="col"
+              class="numeric"
+              id="value-heading">人口（人）</th
+            ><th scope="col">大きさの目安</th><th scope="col">根拠</th></tr
+          ></thead
+        ><tbody id="comparison-body"
+          >{
+            rows.map((o) => {
+              const ward = wards.find((w) => w.code === o.geography)!;
+              return (
+                <tr>
+                  <>
+                    <th scope="row">
+                      <a href={`/wards/${ward.slug}/`}>{ward.name}</a>
+                    </th>
+                    <td class="numeric">{number(o.value)}</td>
+                    <td>
+                      <span class="bar-track" aria-hidden="true">
+                        <span
+                          class="bar-fill"
+                          style={`width:${(o.value / rows[0].value) * 100}%`}
+                        />
+                      </span>
+                    </td>
+                    <td>
+                      <a class="cite" href={`/sources/#s-${o.sourceId}`}>
+                        出典
+                      </a>
+                    </td>
+                  </>
+                </tr>
+              );
+            })
+          }</tbody
+        >
+      </table>
+    </div>
+    <p class="small muted">
+      この順序は指標の大小だけを示し、住みやすさや政策の成績を評価するものではありません。増減の棒は絶対値、符号は数値欄で表示します。
+    </p><a class="action secondary" href="/data/population.csv" download
+      >掲載データをCSVで取得 ↓</a
+    >
+    <noscript
+      ><p class="note">
+        現在は最新時点の人口を表示しています。指標・時点の切り替えにはJavaScriptを有効にしてください。各区のページとCSVはそのまま利用できます。
+      </p></noscript
+    >
+  </div>
+  <script
+    is:inline
+    id="comparison-data"
+    type="application/json"
+    set:html={JSON.stringify({ compact, snapshots: data.snapshots }).replaceAll(
+      "<",
+      "\\u003c",
+    )}
+  />
+  <script>
+    import "../../scripts/comparison";
+  </script></Layout
+>

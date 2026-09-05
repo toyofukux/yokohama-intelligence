@@ -1,0 +1,46 @@
+{
+  "name": "yokohama-intelligence",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "pnpm@10.32.1",
+  "scripts": {
+    "dev": "astro dev --root apps/web --host 127.0.0.1",
+    "build": "tsx scripts/validate.ts && astro build --root apps/web && tsx scripts/check-links.ts",
+    "check": "astro check --root apps/web && tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "test:e2e": "playwright test",
+    "data:refresh": "tsx scripts/ingest.ts",
+    "data:validate": "tsx scripts/validate.ts",
+    "lint": "biome check packages scripts tests apps/mcp/src",
+    "format": "biome check --write packages scripts tests apps/mcp/src",
+    "preview": "wrangler dev --config wrangler.jsonc --port 8788",
+    "deploy": "pnpm build && wrangler deploy --config wrangler.jsonc",
+    "mcp:dev": "wrangler dev --config apps/mcp/wrangler.jsonc --port 8789",
+    "verify": "pnpm lint && pnpm lint:web && pnpm check && pnpm test && pnpm build",
+    "test:mcp": "tsx scripts/mcp-smoke.ts",
+    "format:web": "prettier --plugin prettier-plugin-astro --write 'apps/web/src/**/*.{astro,css,ts}'",
+    "lint:web": "prettier --plugin prettier-plugin-astro --check 'apps/web/src/**/*.{astro,css,ts}'"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.13.0",
+    "@biomejs/biome": "^2.5.12",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^24.13.3",
+    "astro": "7.3.1",
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^0.14.1",
+    "tsx": "^4.23.13",
+    "typescript": "^6.0.3",
+    "wrangler": "4.129.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "csv-parse": "^7.0.2",
+    "zod": "4.5.4"
+  }
+}

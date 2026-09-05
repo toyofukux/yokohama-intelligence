@@ -1,0 +1,118 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { wards, metrics } from "../data";
+import { issues } from "../../../../packages/core/issues";
+const entries = [
+  ...wards.map((w) => ({
+    title: w.name + "の人口と暮らしのデータ",
+    description: "人口・世帯数・人口密度・月次推移・地域比較",
+    url: "/wards/" + w.slug + "/",
+  })),
+  ...issues.map((i) => ({
+    title: i.title,
+    description: i.summary + " " + i.category,
+    url: "/issues/" + i.slug + "/",
+  })),
+  ...metrics.map((m) => ({
+    title: m.name + "を18区で比較",
+    description: m.definition,
+    url: "/wards/?metric=" + m.id,
+  })),
+  {
+    title: "出典とデータの定義",
+    description: "原本CSV、取得日、ライセンス、更新状況、訂正",
+    url: "/sources/",
+  },
+];
+---
+
+<Layout title="サイト内を検索"
+  ><div class="container narrow section">
+    <p class="breadcrumb"><a href="/">ホーム</a> / 検索</p><h1
+      class="page-title"
+    >
+      知りたいことを探す。
+    </h1><p class="lede">
+      区名や「人口」「世帯」「密度」などの言葉で探せます。
+    </p><form role="search" id="search-form">
+      <label for="query">区名・気になる言葉</label><input
+        type="search"
+        name="q"
+        id="query"
+        placeholder="例：港北区、人口、世帯"
+        maxlength="100"
+        autocomplete="off"
+      /><button class="action" style="margin-top:12px" type="submit"
+        >検索する →</button
+      >
+    </form><p class="small muted" style="margin-top:20px">
+      検索はこの端末内で行います。入力した言葉はサーバーへ送信しません。
+    </p><p id="search-status" role="status" aria-live="polite"></p><div
+      id="search-results"
+    >
+      {
+        entries.map((e) => (
+          <article class="result">
+            <>
+              <h2>
+                <a href={e.url}>{e.title}</a>
+              </h2>
+              <p class="small muted">{e.description}</p>
+            </>
+          </article>
+        ))
+      }
+    </div><noscript
+      ><p>
+        検索の絞り込みにはJavaScriptが必要です。上の一覧からも探せます。
+      </p></noscript
+    >
+  </div>
+  <script is:inline define:vars={{ entries }}>
+    const input = document.querySelector("#query"),
+      results = document.querySelector("#search-results"),
+      status = document.querySelector("#search-status");
+    function search() {
+      const query = input.value.trim().normalize("NFKC").toLowerCase();
+      const words = query.split(/\s+/).filter(Boolean);
+      const found = entries.filter((e) =>
+        words.every((w) =>
+          (e.title + " " + e.description)
+            .normalize("NFKC")
+            .toLowerCase()
+            .includes(w),
+        ),
+      );
+      results.replaceChildren();
+      status.textContent = found.length + "件見つかりました";
+      for (const entry of found) {
+        const article = document.createElement("article");
+        article.className = "result";
+        const h = document.createElement("h2");
+        const a = document.createElement("a");
+        a.href = entry.url;
+        a.textContent = entry.title;
+        h.append(a);
+        const p = document.createElement("p");
+        p.className = "small muted";
+        p.textContent = entry.description;
+        article.append(h, p);
+        results.append(article);
+      }
+      if (!found.length) {
+        const p = document.createElement("p");
+        p.className = "note";
+        p.textContent =
+          "見つかりませんでした。区名や「人口」「世帯」など、短い言葉で試してください。予算・交通などのデータは現在収集準備中です。";
+        results.append(p);
+      }
+    }
+    document
+      .querySelector("#search-form")
+      .addEventListener("submit", (event) => {
+        event.preventDefault();
+        search();
+      });
+    input.addEventListener("input", search);
+  </script></Layout
+>

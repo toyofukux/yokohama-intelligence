@@ -1,0 +1,3 @@
+apps/mcp/worker-configuration.d.ts linguist-generated=true
+data/published/*.json linguist-generated=true
+pnpm-lock.yaml linguist-generated=true
