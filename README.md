@@ -51,7 +51,7 @@ data/published/   検証済み公開データ
 
 ## 公開と運用
 
-[Cloudflare公開手順](docs/runbooks/deploy.md) · [データ更新](docs/runbooks/data.md) · [MCP](docs/runbooks/mcp.md)
+[Cloudflare公開手順](docs/runbooks/deploy.md) · [独自ドメイン設定](docs/runbooks/domain.md) · [データ更新](docs/runbooks/data.md) · [MCP](docs/runbooks/mcp.md)
 
 公開WebはCloudflare Static Assetsのみで配信でき、アクセスごとのAI料金は発生しない。
 MCPは動的Workerの料金・制限が別に適用される。ドメイン・CI・将来のAIバッチ費用は別。

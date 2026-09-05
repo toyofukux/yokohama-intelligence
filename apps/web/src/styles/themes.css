@@ -1,6 +1,9 @@
 /* Product palettes inspired by Yokohama's sea and gardens; not official brand specifications. */
 :root,
 :root[data-theme="yokohama"] {
+  color-scheme: light;
+  --card: #fff;
+  --on-accent: #fff;
   --ink: #183750;
   --muted: #506779;
   --accent: #0067a6;
@@ -37,4 +40,50 @@
   --art: #507942;
   --art-soft: #86a171;
   --art-halo: #e8efcf;
+}
+
+:root[data-theme="yokohama-night"] {
+  color-scheme: dark;
+  --ink: #e2edf5;
+  --muted: #acc0d2;
+  --accent: #87c9ef;
+  --accent-hover: #b5e0f8;
+  --on-accent: #091b2d;
+  --paper: #091b2d;
+  --card: #10283d;
+  --line: #34516a;
+  --surface: #122d43;
+  --surface-line: #34516a;
+  --soft: #18334a;
+  --footer: #071726;
+  --tag-bg: #213f57;
+  --tag-ink: #c4e7fa;
+  --outline: #7b9bb5;
+  --chart: #87c9ef;
+  --art: #f4cd88;
+  --art-soft: #7cbbd5;
+  --art-halo: #15374e;
+  --orange: #f0b38c;
+}
+.night-lights {
+  display: none;
+}
+:root[data-theme="yokohama-night"] .night-lights {
+  display: inline;
+}
+:root[data-theme="yokohama-night"] .day-birds {
+  display: none;
+}
+@media print {
+  :root[data-theme] {
+    color-scheme: light;
+    --ink: #183750;
+    --muted: #506779;
+    --paper: #fff;
+    --card: #fff;
+    --accent: #0067a6;
+    --on-accent: #fff;
+    --surface: #eaf2f8;
+    --soft: #eef4f8;
+  }
 }

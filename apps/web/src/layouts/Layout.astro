@@ -3,11 +3,13 @@ import "../styles/global.css";
 import "../styles/themes.css";
 import {
   resolveTheme,
+  yokohamaSunTimes,
   themeConfig,
   themeColors,
   themeIds,
 } from "../../../../packages/core/theme";
 const themeScript = `(() => {
+  const yokohamaSunTimes = ${yokohamaSunTimes.toString()};
   const select = ${resolveTheme.toString()};
   const config = ${JSON.stringify(themeConfig)};
   const colors = ${JSON.stringify(themeColors)};

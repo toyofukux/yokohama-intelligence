@@ -100,7 +100,7 @@
     position: absolute;
     left: 8px;
     top: -60px;
-    background: white;
+    background: var(--card);
     padding: 12px;
     z-index: 9;
   }
@@ -188,14 +188,14 @@
     padding: 12px 21px;
     border: 1px solid var(--accent);
     background: var(--accent);
-    color: #fff;
+    color: var(--on-accent);
     border-radius: 3px;
     text-decoration: none;
     font-size: 0.9rem;
   }
   .action:hover {
     background: var(--accent-hover);
-    color: white;
+    color: var(--on-accent);
   }
   .action.secondary {
     background: transparent;
@@ -228,7 +228,7 @@
     margin: 12px 0 0;
   }
   .stat {
-    background: #fff;
+    background: var(--card);
     padding: 24px 28px;
   }
   .stat-label {
@@ -269,7 +269,7 @@
     gap: 20px;
   }
   .card {
-    background: white;
+    background: var(--card);
     border: 1px solid var(--line);
     border-radius: 4px;
     padding: 26px;
@@ -335,7 +335,7 @@
     gap: 8px;
   }
   .ward-links a {
-    background: #fff;
+    background: var(--card);
     padding: 8px;
     text-decoration: none;
     text-align: center;
@@ -383,7 +383,7 @@
   input[type="search"] {
     padding: 10px 12px;
     border: 1px solid var(--outline);
-    background: #fff;
+    background: var(--card);
     border-radius: 3px;
     color: var(--ink);
     min-height: 46px;
@@ -393,7 +393,7 @@
   }
   .table-wrap {
     overflow-x: auto;
-    background: white;
+    background: var(--card);
     border: 1px solid var(--line);
     margin-block: 20px;
   }
@@ -441,7 +441,7 @@
     gap: 28px;
   }
   .box {
-    background: #fff;
+    background: var(--card);
     border: 1px solid var(--line);
     padding: 28px;
     border-radius: 4px;
@@ -485,7 +485,7 @@
     padding: 0;
   }
   .fact-list li {
-    background: white;
+    background: var(--card);
     border: 1px solid var(--line);
     padding: 18px;
     margin: 12px 0;
@@ -510,7 +510,7 @@
   }
   .pill-list a {
     padding: 8px 14px;
-    background: white;
+    background: var(--card);
     border: 1px solid var(--line);
     border-radius: 30px;
     font-size: 0.82rem;
@@ -562,13 +562,13 @@
   .reading-toggle button {
     padding: 9px 16px;
     border: 1px solid var(--accent);
-    background: white;
+    background: var(--card);
     color: var(--ink);
     border-radius: 3px;
   }
   .reading-toggle button[aria-pressed="true"] {
     background: var(--accent);
-    color: white;
+    color: var(--on-accent);
   }
   [hidden] {
     display: none !important;
@@ -679,7 +679,7 @@
       display: none;
     }
     body {
-      background: white;
+      background: var(--card);
       color: black;
     }
     .container {
