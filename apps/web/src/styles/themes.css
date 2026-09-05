@@ -1,0 +1,40 @@
+/* Product palettes inspired by Yokohama's sea and gardens; not official brand specifications. */
+:root,
+:root[data-theme="yokohama"] {
+  --ink: #183750;
+  --muted: #506779;
+  --accent: #0067a6;
+  --accent-hover: #004d80;
+  --paper: #f7fafc;
+  --line: #d2dfe8;
+  --surface: #eaf2f8;
+  --surface-line: #cadce9;
+  --soft: #eef4f8;
+  --footer: #edf3f7;
+  --tag-bg: #e3eff8;
+  --tag-ink: #16527c;
+  --outline: #7f9db4;
+  --chart: #0067a6;
+  --art: #427fa7;
+  --art-soft: #7599b3;
+  --art-halo: #e2eef8;
+}
+:root[data-theme="green-expo"] {
+  --ink: #233d30;
+  --muted: #526a59;
+  --accent: #286544;
+  --accent-hover: #1d4b32;
+  --paper: #f8faf3;
+  --line: #d9e1d1;
+  --surface: #edf3e6;
+  --surface-line: #d3dfc5;
+  --soft: #f0f4e9;
+  --footer: #edf2e5;
+  --tag-bg: #e4eed8;
+  --tag-ink: #355c2c;
+  --outline: #819b74;
+  --chart: #377441;
+  --art: #507942;
+  --art-soft: #86a171;
+  --art-halo: #e8efcf;
+}

@@ -1,10 +1,5 @@
 @layer base {
   :root {
-    --ink: #18393e;
-    --muted: #52696b;
-    --teal: #216c67;
-    --paper: #f6f5ef;
-    --line: #d8dfd8;
     --orange: #a64725;
     --white: #fff;
     --serif: "Hiragino Mincho ProN", "Yu Mincho", serif;
@@ -26,7 +21,7 @@
     text-underline-offset: 4px;
   }
   a:hover {
-    color: var(--teal);
+    color: var(--accent);
   }
   button,
   input,
@@ -96,7 +91,7 @@
   .eyebrow {
     font-size: 0.74rem;
     letter-spacing: 0.15em;
-    color: var(--teal);
+    color: var(--accent);
     font-weight: 700;
     text-transform: uppercase;
     margin-bottom: 20px;
@@ -152,7 +147,7 @@
     border-bottom: 2px solid transparent;
   }
   .header-inner nav a[aria-current="page"] {
-    border-color: var(--teal);
+    border-color: var(--accent);
   }
   .search-link {
     font-size: 0.85rem;
@@ -175,7 +170,7 @@
     font-size: 1rem;
   }
   .beta {
-    border: 1px solid #adbbb1;
+    border: 1px solid var(--outline);
     padding: 3px 8px;
     letter-spacing: 0;
     font-size: 0.7rem;
@@ -191,15 +186,15 @@
     gap: 25px;
     align-items: center;
     padding: 12px 21px;
-    border: 1px solid var(--teal);
-    background: var(--teal);
+    border: 1px solid var(--accent);
+    background: var(--accent);
     color: #fff;
     border-radius: 3px;
     text-decoration: none;
     font-size: 0.9rem;
   }
   .action:hover {
-    background: #194e4a;
+    background: var(--accent-hover);
     color: white;
   }
   .action.secondary {
@@ -221,7 +216,7 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: var(--teal);
+    background: var(--accent);
     margin-right: 7px;
   }
   .stats {
@@ -290,7 +285,7 @@
   }
   .card-link:hover {
     transform: translateY(-3px);
-    border-color: var(--teal);
+    border-color: var(--accent);
     color: var(--ink);
   }
   .card h3 {
@@ -311,8 +306,8 @@
   }
   .tag {
     align-self: flex-start;
-    background: #e7efea;
-    color: #295d4b;
+    background: var(--tag-bg);
+    color: var(--tag-ink);
     padding: 3px 9px;
     font-size: 0.7rem;
     border-radius: 2px;
@@ -329,8 +324,8 @@
     display: grid;
     grid-template-columns: 1fr 1.6fr;
     gap: 45px;
-    background: #eaf0ea;
-    border: 1px solid #d3dfd3;
+    background: var(--surface);
+    border: 1px solid var(--surface-line);
     border-radius: 4px;
     padding: 35px;
   }
@@ -349,11 +344,11 @@
     border-radius: 2px;
   }
   .ward-links a:hover {
-    border-color: var(--teal);
+    border-color: var(--accent);
   }
   .note {
-    background: #edf1ed;
-    border-left: 3px solid #719080;
+    background: var(--soft);
+    border-left: 3px solid var(--outline);
     padding: 18px 22px;
     font-size: 0.88rem;
   }
@@ -387,7 +382,7 @@
   select,
   input[type="search"] {
     padding: 10px 12px;
-    border: 1px solid #9bb0a7;
+    border: 1px solid var(--outline);
     background: #fff;
     border-radius: 3px;
     color: var(--ink);
@@ -421,7 +416,7 @@
     white-space: nowrap;
   }
   thead th {
-    background: #eaf0ea;
+    background: var(--surface);
     font-weight: 500;
   }
   td.numeric,
@@ -431,13 +426,13 @@
   }
   .bar-track {
     width: 180px;
-    background: #edf1ed;
+    background: var(--soft);
     height: 7px;
     display: block;
   }
   .bar-fill {
     display: block;
-    background: #438177;
+    background: var(--chart);
     height: 7px;
   }
   .split {
@@ -498,7 +493,7 @@
   .fact-type {
     font-size: 0.7rem;
     display: inline-block;
-    color: var(--teal);
+    color: var(--accent);
     margin-right: 12px;
     font-weight: 600;
   }
@@ -525,7 +520,7 @@
     margin-top: 50px;
     border-top: 1px solid var(--line);
     padding: 38px 0 45px;
-    background: #eef0e9;
+    background: var(--footer);
   }
   .footer-grid {
     display: grid;
@@ -566,13 +561,13 @@
   }
   .reading-toggle button {
     padding: 9px 16px;
-    border: 1px solid var(--teal);
+    border: 1px solid var(--accent);
     background: white;
     color: var(--ink);
     border-radius: 3px;
   }
   .reading-toggle button[aria-pressed="true"] {
-    background: var(--teal);
+    background: var(--accent);
     color: white;
   }
   [hidden] {

@@ -27,10 +27,13 @@ const coords = points
   >
     <path
       d="M56 45H616M56 107H616M56 170H616"
-      stroke="#d8dfd8"
+      stroke="var(--line)"
       stroke-dasharray="3 4"></path>
-    <polyline points={coords} stroke="#277268" stroke-width="2.5" fill="none"
-    ></polyline>
+    <polyline
+      points={coords}
+      stroke="var(--chart)"
+      stroke-width="2.5"
+      fill="none"></polyline>
     <text x="56" y="24">{number(max)}</text><text x="56" y="192"
       >{number(min)}</text
     >

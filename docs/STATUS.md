@@ -56,3 +56,12 @@
 ## ローカル処理
 
 実装中に使用した開発サーバーは作業終了時に停止する。再開はREADMEのコマンドを使う。
+
+## 2026-09-05: 横浜の青と期間限定テーマ
+
+- 基本配色を海の青・白・紺に変更。`packages/core/theme.ts`で通常配色・手動固定・期間を設定する。
+- GREEN×EXPO 2027の開催期間だけ緑へ切り替え、終了時に青へ戻る。静的配信のまま端末で判定する。
+- URLの `?theme=yokohama` / `?theme=green-expo` でプレビューできる。
+- `pnpm verify`合格（15件の単体テスト）。PC/スマホのE2Eは両配色・日時境界を含む18件で合格。
+- Web version: `18af32de-f0d8-429a-8ed4-14dd92a27fc4`。
+- 配色と運用手順: `docs/THEMES.md`。ドメイン10案: `docs/DOMAIN-CANDIDATES.md`。ドメインの選定・取得・DNS設定は未実施。
