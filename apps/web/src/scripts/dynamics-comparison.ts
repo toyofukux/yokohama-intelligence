@@ -1,4 +1,6 @@
 import { bars } from "../chart-html";
+import { storyHtml } from "../region-story-html";
+import type { Story } from "../../../../packages/core/region-story";
 export {};
 const payload = document.querySelector("#movement-data");
 const metric = document.querySelector<HTMLSelectElement>("#movement-metric");
@@ -6,6 +8,7 @@ const year = document.querySelector<HTMLSelectElement>("#movement-year");
 if (!payload?.textContent || !metric || !year)
   throw new Error("Missing dynamics comparison");
 const data: {
+  stories: Record<string, Story>;
   compact: [string, string, string, number][];
   wards: { code: string; slug: string; name: string }[];
   metrics: { id: string; name: string; definition: string }[];
@@ -14,6 +17,10 @@ const data: {
 const metricInput = metric,
   yearInput = year;
 function render() {
+  document.querySelector("#movement-story")!.innerHTML = storyHtml(
+    data.stories[yearInput.value],
+    "movement",
+  );
   const definition = data.metrics.find((m) => m.id === metricInput.value)!;
   const rows = data.compact
     .filter((o) => o[0] === yearInput.value && o[2] === definition.id)

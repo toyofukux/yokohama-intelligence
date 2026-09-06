@@ -2,6 +2,10 @@
 import { createHash } from "node:crypto";
 import raw from "../../../../data/published/ages.json?raw";
 import { stacks, lines } from "../chart-html";
+import { ageStories } from "../region-stories";
+import { storyHtml } from "../region-story-html";
+import RegionStoryStyle from "../components/RegionStoryStyle.astro";
+import RegionalQuestions from "../components/RegionalQuestions.astro";
 import ChartStyle from "../components/ChartStyle.astro";
 import Layout from "../layouts/Layout.astro";
 import SourceLink from "../components/SourceLink.astro";
@@ -34,7 +38,7 @@ const compact = ages.records.map((r) => ({
 >
   <article class="container section prose">
     <p class="breadcrumb"><a href="/">ホーム</a> / 年齢構成</p>
-    <h1 class="page-title">子ども・高齢者の人数と割合を、区ごとに見る。</h1>
+    <h1 class="page-title">年齢構成から、地域の変化と暮らしを考える。</h1>
     <p class="lede">
       2000〜{
         period.slice(0, 4)
@@ -45,6 +49,105 @@ const compact = ages.records.map((r) => ({
     <p class="note">
       割合の分母は、年齢不詳を含む総人口です。不詳を除いた割合とは異なり、四捨五入により合計が100%にならない場合があります。
     </p>
+    <h2>地域を選んで、世代の変化を読む</h2>
+    <label
+      >推移を見る地域<select id="age-geography" disabled
+        >{
+          geographies.map((g) => <option value={g.code}>{g.name}</option>)
+        }</select
+      ></label
+    >
+    <RegionStoryStyle />
+    <div id="age-story" set:html={storyHtml(ageStories["141003"], "ages")} />
+    <h3>人口全体と各世代の、変化の大きさを比べる</h3>
+    <p>
+      最初の年の人数をそれぞれ100とします。200なら2倍、80なら2割減です。世代同士の人数の大小ではなく、増減の大きさを比べます。
+    </p>
+    <div
+      id="age-index-chart"
+      set:html={lines(
+        [...history].reverse().map((r) => r.period.slice(0, 4)),
+        (
+          [
+            ["age_total", "総人口"],
+            ["age_under15", "0〜14歳"],
+            ["age_65plus", "65歳以上"],
+          ] as const
+        ).map(([key, name]) => ({
+          name,
+          values: [...history]
+            .reverse()
+            .map(
+              (r) =>
+                (r.values[key] / history[history.length - 1].values[key]) * 100,
+            ),
+        })),
+        "横浜市の人数の変化（最初の年＝100）",
+        `${history[history.length - 1].period.slice(0, 4)}年＝100`,
+        false,
+        100,
+      )}
+    />
+    <h3>世代の割合の変化も確かめる</h3>
+    <div
+      id="age-history-chart"
+      set:html={lines(
+        [...history].reverse().map((r) => r.period.slice(0, 4)),
+        columns.map((m) => ({
+          name: m.name.replace("の人口", ""),
+          values: [...history]
+            .reverse()
+            .map((r) => (r.values[m.id] / r.values.age_total) * 100),
+        })),
+        "横浜市の年齢構成の推移（各年1月1日）",
+        "%",
+      )}
+    />
+    <details class="numeric-supplement">
+      <summary>年ごとの人数・割合を表で確認する</summary>
+      <div
+        class="table-wrap"
+        tabindex="0"
+        role="region"
+        aria-label="年齢構成の年別推移。横にスクロールできます"
+      >
+        <table>
+          <caption id="age-history-caption"
+            >横浜市の各年1月1日現在の人数（人）と総人口に対する割合（%）。</caption
+          >
+          <thead
+            ><tr
+              ><th scope="col">時点</th><th scope="col" class="numeric"
+                >総人口（人）</th
+              >{
+                columns.map((m) => (
+                  <th scope="col" class="numeric">
+                    {m.name}
+                  </th>
+                ))
+              }</tr
+            ></thead
+          >
+          <tbody id="age-history"
+            >{
+              history.map((r) => (
+                <tr>
+                  <>
+                    <th scope="row">{r.period}</th>
+                    <td class="numeric">{number(r.values.age_total)}</td>
+                    {columns.map((m) => (
+                      <td class="numeric">
+                        {display(r.values[m.id], r.values.age_total)}
+                      </td>
+                    ))}
+                  </>
+                </tr>
+              ))
+            }</tbody
+          >
+        </table>
+      </div>
+    </details>
     <h2>同じ時点で市と18区を比較する</h2>
     <label
       >年齢別人口の時点<select id="age-period" disabled
@@ -66,131 +169,69 @@ const compact = ages.records.map((r) => ({
         `${period}現在の年齢構成（%）`,
       )}
     />
-    <h3>人数と割合を表で確認する</h3>
-    <div
-      class="table-wrap"
-      tabindex="0"
-      role="region"
-      aria-label="市と18区の年齢構成。横にスクロールできます"
-    >
-      <table>
-        <caption id="age-caption"
-          >{
-            period
-          }現在の人数（人）と総人口に対する割合（%）。市・区の掲載順。</caption
-        >
-        <thead
-          ><tr
-            ><th scope="col">地域</th><th scope="col" class="numeric"
-              >総人口（人）</th
+    <details class="numeric-supplement">
+      <summary>市と18区の人数・割合を表で確認する</summary>
+      <div
+        class="table-wrap"
+        tabindex="0"
+        role="region"
+        aria-label="市と18区の年齢構成。横にスクロールできます"
+      >
+        <table>
+          <caption id="age-caption"
             >{
-              columns.map((m) => (
-                <th scope="col" class="numeric">
-                  {m.name}
-                </th>
-              ))
-            }</tr
-          ></thead
-        >
-        <tbody id="age-body"
-          >{
-            rows.map((r) => (
-              <tr>
-                <>
-                  <th scope="row">
-                    <a
-                      href={
-                        r.geography === "141003"
-                          ? "/"
-                          : `/wards/${geographies.find((g) => g.code === r.geography)!.slug}/`
-                      }
-                    >
-                      {geographies.find((g) => g.code === r.geography)!.name}
-                    </a>
+              period
+            }現在の人数（人）と総人口に対する割合（%）。市・区の掲載順。</caption
+          >
+          <thead
+            ><tr
+              ><th scope="col">地域</th><th scope="col" class="numeric"
+                >総人口（人）</th
+              >{
+                columns.map((m) => (
+                  <th scope="col" class="numeric">
+                    {m.name}
                   </th>
-                  <td class="numeric">{number(r.values.age_total)}</td>
-                  {columns.map((m) => (
-                    <td class="numeric">
-                      {display(r.values[m.id], r.values.age_total)}
-                    </td>
-                  ))}
-                </>
-              </tr>
-            ))
-          }</tbody
-        >
-      </table>
-    </div>
-    <h2>地域を選んで、年ごとの変化を見る</h2>
-    <label
-      >推移を見る地域<select id="age-geography" disabled
-        >{
-          geographies.map((g) => <option value={g.code}>{g.name}</option>)
-        }</select
-      ></label
-    >
-    <div
-      id="age-history-chart"
-      set:html={lines(
-        [...history].reverse().map((r) => r.period.slice(0, 4)),
-        columns.map((m) => ({
-          name: m.name.replace("の人口", ""),
-          values: [...history]
-            .reverse()
-            .map((r) => (r.values[m.id] / r.values.age_total) * 100),
-        })),
-        "横浜市の年齢構成の推移（各年1月1日）",
-        "%",
-      )}
-    />
-    <h3>年ごとの人数と割合を表で確認する</h3>
-    <div
-      class="table-wrap"
-      tabindex="0"
-      role="region"
-      aria-label="年齢構成の年別推移。横にスクロールできます"
-    >
-      <table>
-        <caption id="age-history-caption"
-          >横浜市の各年1月1日現在の人数（人）と総人口に対する割合（%）。</caption
-        >
-        <thead
-          ><tr
-            ><th scope="col">時点</th><th scope="col" class="numeric"
-              >総人口（人）</th
+                ))
+              }</tr
+            ></thead
+          >
+          <tbody id="age-body"
             >{
-              columns.map((m) => (
-                <th scope="col" class="numeric">
-                  {m.name}
-                </th>
+              rows.map((r) => (
+                <tr>
+                  <>
+                    <th scope="row">
+                      <a
+                        href={
+                          r.geography === "141003"
+                            ? "/"
+                            : `/wards/${geographies.find((g) => g.code === r.geography)!.slug}/`
+                        }
+                      >
+                        {geographies.find((g) => g.code === r.geography)!.name}
+                      </a>
+                    </th>
+                    <td class="numeric">{number(r.values.age_total)}</td>
+                    {columns.map((m) => (
+                      <td class="numeric">
+                        {display(r.values[m.id], r.values.age_total)}
+                      </td>
+                    ))}
+                  </>
+                </tr>
               ))
-            }</tr
-          ></thead
-        >
-        <tbody id="age-history"
-          >{
-            history.map((r) => (
-              <tr>
-                <>
-                  <th scope="row">{r.period}</th>
-                  <td class="numeric">{number(r.values.age_total)}</td>
-                  {columns.map((m) => (
-                    <td class="numeric">
-                      {display(r.values[m.id], r.values.age_total)}
-                    </td>
-                  ))}
-                </>
-              </tr>
-            ))
-          }</tbody
-        >
-      </table>
-    </div>
+            }</tbody
+          >
+        </table>
+      </div>
+    </details>
     <noscript
       ><p class="note">
         最新の年の市区比較と、市全体の年別推移を表示しています。選択の切り替えにはJavaScriptが必要です。すべての地域・年の数値はCSV/JSONでも取得できます。
       </p></noscript
     >
+    <RegionalQuestions />
     <h2>定義と読み方</h2>
     {
       ageMetrics.map((m) => (
@@ -239,6 +280,7 @@ const compact = ages.records.map((r) => ({
     type="application/json"
     set:html={JSON.stringify({
       records: compact,
+      stories: ageStories,
       geographies,
       columns: columns.map((m) => m.id),
     }).replaceAll("<", "\\u003c")}

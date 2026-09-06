@@ -1,4 +1,6 @@
 import { stacks, lines } from "../chart-html";
+import { storyHtml } from "../region-story-html";
+import type { Story } from "../../../../packages/core/region-story";
 export {};
 type Record = {
   geography: string;
@@ -12,6 +14,7 @@ if (!payload?.textContent || !period || !geography)
   throw new Error("Missing age data");
 const data: {
   records: Record[];
+  stories: { [code: string]: Story };
   geographies: { code: string; name: string; slug: string }[];
   columns: string[];
 } = JSON.parse(payload.textContent);
@@ -46,6 +49,10 @@ function fill(body: Element, records: Record[], history = false) {
   }
 }
 function render() {
+  document.querySelector("#age-story")!.innerHTML = storyHtml(
+    data.stories[geoInput.value],
+    "ages",
+  );
   fill(
     document.querySelector("#age-body")!,
     data.records.filter((r) => r.period === periodInput.value),
@@ -73,6 +80,23 @@ function render() {
   const chronological = data.records
     .filter((r) => r.geography === geoInput.value)
     .sort((a, b) => a.period.localeCompare(b.period));
+  document.querySelector("#age-index-chart")!.innerHTML = lines(
+    chronological.map((r) => r.period.slice(0, 4)),
+    [
+      ["age_total", "総人口"],
+      ["age_under15", "0〜14歳"],
+      ["age_65plus", "65歳以上"],
+    ].map(([key, name]) => ({
+      name,
+      values: chronological.map(
+        (r) => (r.values[key] / chronological[0].values[key]) * 100,
+      ),
+    })),
+    `${name}の人数の変化（最初の年＝100）`,
+    `${chronological[0].period.slice(0, 4)}年＝100`,
+    false,
+    100,
+  );
   document.querySelector("#age-history-chart")!.innerHTML = lines(
     chronological.map((r) => r.period.slice(0, 4)),
     data.columns.map((m, i) => ({

@@ -2,6 +2,10 @@
 import { createHash } from "node:crypto";
 import raw from "../../../../../data/published/dynamics.json?raw";
 import Layout from "../../layouts/Layout.astro";
+import { movementStory, ageDataVersion } from "../../region-stories";
+import { storyHtml } from "../../region-story-html";
+import RegionStoryStyle from "../../components/RegionStoryStyle.astro";
+import RegionalQuestions from "../../components/RegionalQuestions.astro";
 import DynamicsHistory from "../../components/DynamicsHistory.astro";
 import SourceLink from "../../components/SourceLink.astro";
 import { dynamics, dynamicsMetrics, dynamicsPage } from "../../dynamics-data";
@@ -27,7 +31,7 @@ const version = createHash("sha256").update(raw).digest("hex");
 
 <Layout
   title={`${geography.name}の人口増減の内訳`}
-  dataVersion={`人口動態 SHA-256:${version}`}
+  dataVersion={`人口動態 SHA-256:${version} / 年齢別人口 SHA-256:${ageDataVersion}`}
 >
   <article class="container section prose">
     <p class="breadcrumb">
@@ -42,43 +46,53 @@ const version = createHash("sha256").update(raw).digest("hex");
         href={dynamicsPage}
       />
     </p>
-    <div class="cards">
-      {
-        dynamicsMetrics.slice(0, 3).map((m) => (
-          <section class="box">
-            <>
-              <h2>{m.name}</h2>
-              <p class="page-title" style="font-size:2rem">
-                {value(m.id) > 0 ? "+" : ""}
-                {number(value(m.id))}
-                <small> 人</small>
-              </p>
-              <p>{m.definition}</p>
-            </>
-          </section>
-        ))
-      }
-    </div>
-    <h2>内訳の計算</h2>
+    <RegionStoryStyle />
+    <div
+      id="regional-story"
+      set:html={storyHtml(movementStory(geography.code, +year), "movement")}
+    />
+    <details class="numeric-supplement">
+      <summary>最新年の人数と内訳の計算を見る</summary>
+      <div class="cards">
+        {
+          dynamicsMetrics.slice(0, 3).map((m) => (
+            <section class="box">
+              <>
+                <h2>{m.name}</h2>
+                <p class="page-title" style="font-size:2rem">
+                  {value(m.id) > 0 ? "+" : ""}
+                  {number(value(m.id))}
+                  <small> 人</small>
+                </p>
+                <p>{m.definition}</p>
+              </>
+            </section>
+          ))
+        }
+      </div>
+      <h2>内訳の計算</h2>
+      <p>
+        自然増減：出生 {number(value("births"))} − 死亡 {
+          number(value("deaths"))
+        } ＝
+        {number(value("natural_change"))} 人
+      </p>
+      <p>
+        社会増減：市外からの転入 {number(value("external_in"))} − 市外への転出 {
+          number(value("external_out"))
+        } ＋ 市内移動の転入 {number(value("internal_in"))} − 市内移動の転出 {
+          number(value("internal_out"))
+        } ＋ その他増減 ({number(value("other_change"))}) ＝ {
+          number(value("social_change"))
+        } 人
+      </p>
+      <p class="note">
+        これは統計上の内訳です。転入先を選んだ理由や政策の効果を示す値ではありません。年初と年末の推計人口の差には基準改定が影響する場合があるため、ここでは届出による増減を表示します。
+      </p>
+    </details>
+    <h2>グラフで年ごとの流れを確かめる</h2>
     <p>
-      自然増減：出生 {number(value("births"))} − 死亡 {number(value("deaths"))} ＝
-      {number(value("natural_change"))} 人
-    </p>
-    <p>
-      社会増減：市外からの転入 {number(value("external_in"))} − 市外への転出 {
-        number(value("external_out"))
-      } ＋ 市内移動の転入 {number(value("internal_in"))} − 市内移動の転出 {
-        number(value("internal_out"))
-      } ＋ その他増減 ({number(value("other_change"))}) ＝ {
-        number(value("social_change"))
-      } 人
-    </p>
-    <p class="note">
-      これは統計上の内訳です。転入先を選んだ理由や政策の効果を示す値ではありません。年初と年末の推計人口の差には基準改定が影響する場合があるため、ここでは届出による増減を表示します。
-    </p>
-    <h2>年ごとの推移</h2>
-    <p>
-      表は横にスクロールできます。年度ではなく1月〜12月の合計で、年の途中の累計と通年を比較しません。
+      1月〜12月の合計を並べています。表はグラフの下から必要なときに開けます。
     </p>
     <DynamicsHistory geography={geography.code} frequency="year" />
     {
@@ -104,6 +118,7 @@ const version = createHash("sha256").update(raw).digest("hex");
         </p>
       )
     }
+    <RegionalQuestions />
     <div class="pill-list">
       <a href={`/age-structure/?geography=${geography.code}`}
         >年齢構成の推移を見る</a
