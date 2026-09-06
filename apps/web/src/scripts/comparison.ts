@@ -53,15 +53,21 @@ function render() {
     bar.append(track);
     const citation = document.createElement("td");
     const link = document.createElement("a");
-    link.className = "cite";
-    link.textContent = "出典";
+    link.className = "cite source-icon";
+    link.setAttribute("aria-label", "原典を開く");
+    link.title = "原典を開く";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    const icon = document.createElement("span");
+    icon.setAttribute("aria-hidden", "true");
+    link.append(icon);
     const snap = snapshots.find((s) =>
       s.url.endsWith(
         `e1yokohama${period.slice(2, 4)}${period.slice(5, 7)}.csv`,
       ),
     );
     if (!snap) throw new Error("Source missing");
-    link.href = `/sources/#s-${snap.id}`;
+    link.href = snap.url;
     citation.append(link);
     tr.append(name, value, bar, citation);
     body.append(tr);

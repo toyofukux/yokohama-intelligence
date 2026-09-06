@@ -1,0 +1,15 @@
+---
+interface Props {
+  href: string;
+}
+const { href } = Astro.props;
+---
+
+<a
+  class="cite source-icon"
+  href={href}
+  aria-label="原典を開く"
+  title="原典を開く"
+  target="_blank"
+  rel="noopener noreferrer"><span aria-hidden="true"></span></a
+>

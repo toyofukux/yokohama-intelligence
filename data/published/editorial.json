@@ -33,25 +33,25 @@
   ],
   "claims": [
     {
-      "id": "population/claim-1",
+      "id": "population/c1",
       "blockId": "population.category",
       "quote": "人口・まちの変化",
-      "proposition": "人口とまちの変化を扱うカテゴリ名。",
+      "proposition": "人口とまちの変化を扱うカテゴリの見出し。",
       "kind": "non_assertion",
       "requiresHuman": false,
       "scope": "statistics"
     },
     {
-      "id": "population/claim-2",
+      "id": "population/c2",
       "blockId": "population.title",
       "quote": "横浜の人口は、どこで変わっている？",
-      "proposition": "横浜の人口が変化していることを前提として、その場所を尋ねている。",
+      "proposition": "横浜市の人口は変化している。",
       "kind": "fact",
       "requiresHuman": false,
       "scope": "statistics"
     },
     {
-      "id": "population/claim-3",
+      "id": "population/c3",
       "blockId": "population.summary",
       "quote": "区ごとの人口の推移は、各区のページで確認できます。",
       "proposition": "各区のページには、その区の人口の推移を確認できる機能がある。",
@@ -60,7 +60,7 @@
       "scope": "product"
     },
     {
-      "id": "population/claim-4",
+      "id": "population/c4",
       "blockId": "population.question",
       "quote": "区ごとの人口は、どう推移している？",
       "proposition": "区ごとの人口の推移を尋ねる開かれた質問。",
@@ -69,25 +69,25 @@
       "scope": "statistics"
     },
     {
-      "id": "population/claim-5",
+      "id": "population/c5",
       "blockId": "population.limits",
       "quote": "人口の増減だけでは、出生・死亡・転入・転出のどれが原因かは分かりません。",
-      "proposition": "人口の増減だけからは、その原因が出生・死亡・転入・転出のどれであるかを特定できない。",
+      "proposition": "人口の増減だけからは、その増減が出生・死亡・転入・転出のどれによるものかを特定できない。",
       "kind": "fact",
       "requiresHuman": false,
       "scope": "methodology"
     },
     {
-      "id": "population/claim-6",
+      "id": "population/c6",
       "blockId": "population.limits",
       "quote": "国勢調査を基にした推計の改定も、数字の変化に含まれる場合があります。",
-      "proposition": "横浜の人口の数字の変化には、国勢調査を基にした人口推計の改定による変化が含まれる場合がある。",
+      "proposition": "横浜市の人口の数字の変化には、国勢調査を基にした人口推計の改定による変化が含まれる場合がある。",
       "kind": "fact",
       "requiresHuman": false,
-      "scope": "statistics"
+      "scope": "methodology"
     },
     {
-      "id": "population/claim-7",
+      "id": "population/c7",
       "blockId": "population.next",
       "quote": "出生・死亡・転入・転出の内訳と",
       "proposition": "この人口データには、出生・死亡・転入・転出の内訳が収録されていない。",
@@ -96,7 +96,7 @@
       "scope": "product"
     },
     {
-      "id": "population/claim-8",
+      "id": "population/c8",
       "blockId": "population.next",
       "quote": "年齢別人口は未収録です。",
       "proposition": "この人口データには、年齢別人口が収録されていない。",
@@ -105,7 +105,7 @@
       "scope": "product"
     },
     {
-      "id": "population/claim-9",
+      "id": "population/c9",
       "blockId": "population.next",
       "quote": "このデータには、政策効果の推定値は含まれません。",
       "proposition": "この人口データには、政策効果の推定値が含まれていない。",
@@ -117,7 +117,7 @@
       "id": "households/c1",
       "blockId": "households.category",
       "quote": "住まい・暮らし",
-      "proposition": "「住まい・暮らし」というカテゴリ名。",
+      "proposition": "住まい・暮らしという分類ラベル。",
       "kind": "non_assertion",
       "requiresHuman": false,
       "scope": "product"
@@ -126,8 +126,8 @@
       "id": "households/c2",
       "blockId": "households.title",
       "quote": "人口と世帯数の推移は、どう違う？",
-      "proposition": "人口の推移と世帯数の推移には違いがあるという前提で、その違いを尋ねている。",
-      "kind": "fact",
+      "proposition": "人口と世帯数の推移を比較する開かれた質問。",
+      "kind": "non_assertion",
       "requiresHuman": false,
       "scope": "statistics"
     },
@@ -162,8 +162,8 @@
       "id": "households/c6",
       "blockId": "households.question",
       "quote": "人口と世帯数の比は、区によってどう違う？",
-      "proposition": "人口と世帯数の比には区による違いがあるという前提で、その違いを尋ねている。",
-      "kind": "fact",
+      "proposition": "区ごとの人口と世帯数の比を比較する開かれた質問。",
+      "kind": "non_assertion",
       "requiresHuman": false,
       "scope": "statistics"
     },
@@ -234,7 +234,7 @@
       "id": "households/c14",
       "blockId": "households.next",
       "quote": "現在のデータでは世帯数と人口を比較できます。",
-      "proposition": "現在のデータを使って世帯数と人口を比較できる。",
+      "proposition": "現在のデータでは世帯数と人口を比較できる。",
       "kind": "fact",
       "requiresHuman": false,
       "scope": "product"
@@ -243,7 +243,7 @@
       "id": "density/density-01",
       "blockId": "density.category",
       "quote": "まち・地域",
-      "proposition": "分野を示すラベル。",
+      "proposition": "記事のカテゴリを示すラベル。",
       "kind": "non_assertion",
       "requiresHuman": false,
       "scope": "product"
@@ -252,7 +252,7 @@
       "id": "density/density-02",
       "blockId": "density.title",
       "quote": "人口の密度は、区によってどう違う？",
-      "proposition": "横浜市の区によって人口密度に違いがあることを前提に、その違いを尋ねている。",
+      "proposition": "横浜市の人口密度は区によって異なるという前提で、その違いを尋ねている。",
       "kind": "fact",
       "requiresHuman": false,
       "scope": "statistics"
@@ -270,7 +270,7 @@
       "id": "density/density-04",
       "blockId": "density.question",
       "quote": "人口と人口密度を比べると？",
-      "proposition": "人口と人口密度を比較した結果を尋ねる開かれた質問。",
+      "proposition": "人口と人口密度を比較するとどうなるかを尋ねる開かれた質問。",
       "kind": "non_assertion",
       "requiresHuman": false,
       "scope": "statistics"
@@ -279,7 +279,7 @@
       "id": "density/density-05",
       "blockId": "density.limits",
       "quote": "区の平均密度は、駅周辺や住宅地ごとの混雑を表しません。",
-      "proposition": "区の平均人口密度は、区内の駅周辺や住宅地ごとの混雑を表す指標ではない。",
+      "proposition": "区の平均人口密度は、駅周辺や住宅地ごとの混雑を表さない。",
       "kind": "fact",
       "requiresHuman": false,
       "scope": "methodology"
@@ -306,7 +306,7 @@
       "id": "density/density-08",
       "blockId": "density.next",
       "quote": "町丁別人口、",
-      "proposition": "現在の製品には町丁別人口が収録されていない。",
+      "proposition": "人口密度の論点ページで扱うデータには、町丁別人口が収録されていない。",
       "kind": "fact",
       "requiresHuman": false,
       "scope": "product"
@@ -315,7 +315,7 @@
       "id": "density/density-09",
       "blockId": "density.next",
       "quote": "土地利用、",
-      "proposition": "現在の製品には土地利用が収録されていない。",
+      "proposition": "人口密度の論点ページで扱うデータには、土地利用が収録されていない。",
       "kind": "fact",
       "requiresHuman": false,
       "scope": "product"
@@ -324,7 +324,7 @@
       "id": "density/density-10",
       "blockId": "density.next",
       "quote": "交通・施設の分布は未収録です。",
-      "proposition": "現在の製品には交通・施設の分布が収録されていない。",
+      "proposition": "人口密度の論点ページで扱うデータには、交通・施設の分布が収録されていない。",
       "kind": "fact",
       "requiresHuman": false,
       "scope": "product"
@@ -333,7 +333,7 @@
       "id": "density/density-11",
       "blockId": "density.next",
       "quote": "現在の比較は区単位で、",
-      "proposition": "現在の製品の比較は区単位である。",
+      "proposition": "人口密度の論点ページが示す現在の比較は、区単位である。",
       "kind": "fact",
       "requiresHuman": false,
       "scope": "product"
@@ -342,16 +342,16 @@
       "id": "density/density-12",
       "blockId": "density.next",
       "quote": "町や徒歩圏には対応していません。",
-      "proposition": "現在の製品の比較は、町単位や徒歩圏単位に対応していない。",
+      "proposition": "人口密度の論点ページが示す現在の比較は、町や徒歩圏を単位とする比較に対応していない。",
       "kind": "fact",
       "requiresHuman": false,
       "scope": "product"
     }
   ],
-  "reviewedAt": "2026-09-06T00:45:03.728Z",
+  "reviewedAt": "2026-09-06T01:12:30.578Z",
   "reviewer": "codex-editorial-review",
   "method": "ai_evidence_review",
-  "packetHash": "3cd4a48f06ad95ba1a321aa72819e370fe02bd65df4088edfceebc60a182e02c",
+  "packetHash": "dfb4f3a6c05ff8744a28da84828de3a4dfcc4d8d7b735c4c75969ff840828658",
   "sourceCount": 15,
   "sources": [
     {
@@ -364,7 +364,7 @@
         "methodology",
         "statistics"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.454Z",
+      "retrievedAt": "2026-09-06T01:07:38.789Z",
       "contentHash": "41f8f25d55e13487961e0afaf60e2b2a0bafc004b9e3f01f3176d3c9a178fb5a",
       "artifact": {
         "path": "data/editorial/raw/de61fd39a666294a8ee4039991cb45276a17397c44eaa235de381beaae0acc92.html",
@@ -381,7 +381,7 @@
         "methodology",
         "statistics"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.488Z",
+      "retrievedAt": "2026-09-06T01:07:38.824Z",
       "contentHash": "9ddf3f3b01a2afe164e9db96889a06005f2592429d3dd9501e0aa5bc10734d0f",
       "artifact": {
         "path": "data/editorial/raw/3d1c0d97833f37bce53f0a55382f9838a2f477ce552472bbc9e9c860ecb89f3d.html",
@@ -398,7 +398,7 @@
         "methodology",
         "statistics"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.514Z",
+      "retrievedAt": "2026-09-06T01:07:38.847Z",
       "contentHash": "9b03c90c34ec1e59b71bbaddd2a07b4de4311a5f87276f2933ac7974d1192fbf",
       "artifact": {
         "path": "data/editorial/raw/3f2e6d809260d8328fcb7c860c13887c953fbe34af9b76591ced9f6add806c55.html",
@@ -414,7 +414,7 @@
       "scopes": [
         "product"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.514Z",
+      "retrievedAt": "2026-09-06T01:07:38.847Z",
       "contentHash": "e97f83c4d16cfca8cf58375a3b7be5e63da86e154e9a2e0b3283cdfbcaf03268",
       "artifact": null
     },
@@ -427,7 +427,7 @@
       "scopes": [
         "product"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.514Z",
+      "retrievedAt": "2026-09-06T01:07:38.847Z",
       "contentHash": "8fd975788684e9e6e5231b636369f4522b103ac468009ed190af58f0d99cc815",
       "artifact": null
     },
@@ -440,8 +440,8 @@
       "scopes": [
         "product"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.514Z",
-      "contentHash": "fe6e0f451d41a5f24b59c165315e027b6b0df75a68a5f61d0630568f3acb3788",
+      "retrievedAt": "2026-09-06T01:07:38.848Z",
+      "contentHash": "eaf94056a3daa44f482a27bd17e8000b38b5a34de14560fa1fe424a03ea06aac",
       "artifact": null
     },
     {
@@ -454,7 +454,7 @@
         "methodology",
         "statistics"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.674Z",
+      "retrievedAt": "2026-09-06T01:07:38.927Z",
       "contentHash": "c45a139e8fba52ab515661e4ed3f8d3c0e84e2b262fbef006f071b01e5f47922",
       "artifact": {
         "path": "data/editorial/raw/8e19f0057755f67829dec2333806e5f1aa16e1a562b762f6fa6b860ec2e6a5ae.html",
@@ -471,7 +471,7 @@
         "methodology",
         "statistics"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.815Z",
+      "retrievedAt": "2026-09-06T01:07:39.008Z",
       "contentHash": "376cf8898cb359a86c327761b12c6af6d9858591f688820c62109f5826c05a34",
       "artifact": {
         "path": "data/editorial/raw/be7946a0769b6a921958b899ed4cdaf9a508d07415c469581f6e302208b1ec5c.html",
@@ -488,7 +488,7 @@
         "statistics",
         "methodology"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.836Z",
+      "retrievedAt": "2026-09-06T01:07:39.032Z",
       "contentHash": "9f3195c82ad0fd6548e24694912524f28445f92989d6c14d0177a3f26ab53126",
       "artifact": {
         "path": "data/raw/6325c84500310f8944a9acd24a9ddea4b41599189fa92cbcd72341d299db8481.csv",
@@ -505,7 +505,7 @@
         "statistics",
         "methodology"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.860Z",
+      "retrievedAt": "2026-09-06T01:07:39.053Z",
       "contentHash": "b94078ab10b9a48b2dcbf315fa98ef8e77046af35d37852ce473c1e11ae8689c",
       "artifact": {
         "path": "data/raw/ee8bd150a588483d060a69676f82786a255163c4ef7892598c2d3d71af104a5a.csv",
@@ -521,8 +521,8 @@
       "scopes": [
         "product"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.861Z",
-      "contentHash": "e54a8b0fe754fac6e6bdd114bac86cee3c71216b92f30793bb04106cba1d21ad",
+      "retrievedAt": "2026-09-06T01:07:39.054Z",
+      "contentHash": "fcac11c49a76697ffbdcde615aed00a286bd8eccadc146025d96dab2937c4448",
       "artifact": null
     },
     {
@@ -534,8 +534,8 @@
       "scopes": [
         "product"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.861Z",
-      "contentHash": "9344254158fcccb18ed89f970a1119c0820686d7be3eda77e715fea6466e186c",
+      "retrievedAt": "2026-09-06T01:07:39.054Z",
+      "contentHash": "ad968ae84b33d2a0eb5d6d197580baf81339d50ed6100c725e0b1b4dc195adc5",
       "artifact": null
     },
     {
@@ -547,7 +547,7 @@
       "scopes": [
         "product"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.862Z",
+      "retrievedAt": "2026-09-06T01:07:39.055Z",
       "contentHash": "0e1643f07e79b6e2f77f73a659cc41994ba6d4bbe801d99d3f6db60951a08046",
       "artifact": null
     },
@@ -560,8 +560,8 @@
       "scopes": [
         "product"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.862Z",
-      "contentHash": "486a217e8efeeda0b2acaf201d8eb47c997f1a74afa17cb22f41342816790c6a",
+      "retrievedAt": "2026-09-06T01:07:39.055Z",
+      "contentHash": "36c640ab31e5cbfe78e653f0f0dcba937f207b3f9ee1397c4a5b63f63996b3dc",
       "artifact": null
     },
     {
@@ -573,7 +573,7 @@
       "scopes": [
         "methodology"
       ],
-      "retrievedAt": "2026-09-06T00:40:05.890Z",
+      "retrievedAt": "2026-09-06T01:07:39.124Z",
       "contentHash": "67c773346c869fe7a7d2948a50a2f178e17fb4e9142987d1d1336a854c843e23",
       "artifact": {
         "path": "data/editorial/raw/09fa18933487a44a9f20c8926cb13c1394f5a1097e96560a656ee2de3d7cf14c.html",

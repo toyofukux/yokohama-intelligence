@@ -1,4 +1,5 @@
 ---
+import SourceLink from "../../components/SourceLink.astro";
 import Layout from "../../layouts/Layout.astro";
 import { data, wards, metrics, latest, compare, number } from "../../data";
 const current = latest(data, "141003", "population").period;
@@ -73,9 +74,11 @@ const compact = data.observations.map((o) => [
                       </span>
                     </td>
                     <td>
-                      <a class="cite" href={`/sources/#s-${o.sourceId}`}>
-                        出典
-                      </a>
+                      <SourceLink
+                        href={
+                          data.snapshots.find((s) => s.id === o.sourceId)!.url
+                        }
+                      />
                     </td>
                   </>
                 </tr>

@@ -12,3 +12,9 @@
 6. `pnpm verify` と `pnpm test:e2e` を確認して公開します。サイトの台帳は静的な記録で、GitHubと自動同期しません。公開済み版の状態を確認してから完了と伝えます。
 
 実在する報告のみ登録します。テスト用の報告を本番へ送信しません。応答期限・法的な確認の完了・専門家監修を、実施根拠なしに表示しません。
+
+## 表示上の出典リンク
+
+数字の横の資料アイコンから、自治体が公開した原典へ直接移動します。行・列の情報はデータとして保持し、通常画面には表示しません。検証の詳しい説明は解説記事の「出典・確認状況」から開きます。
+
+アイコンはGoogle Material Iconsの `description` を使用しています。配色対応のためSVGの塗りを `currentColor` に変更しています。Apache License 2.0の全文は [material-design-icons.txt](../licenses/material-design-icons.txt) に収録しています。原図: https://github.com/google/material-design-icons/blob/master/src/action/description/materialicons/24px.svg
