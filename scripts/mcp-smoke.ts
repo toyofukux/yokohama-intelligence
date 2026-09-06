@@ -30,6 +30,60 @@ try {
   });
   const compared = JSON.parse((comparison.content as { text: string }[])[0].text);
   assert.equal(compared.observations.length, 18);
+  const flow = await client.callTool({
+    name: 'get_metric',
+    arguments: { geography: '141003', metric: 'total_change' },
+  });
+  assert.equal(flow.isError, undefined);
+  const dynamics = JSON.parse((flow.content as { text: string }[])[0].text);
+  assert.equal(dynamics.observations.length, 1);
+  assert.equal(dynamics.observations[0].frequency, 'year');
+  assert.ok(
+    dynamics.sources.some((s: { id: string }) => s.id === dynamics.observations[0].sourceId),
+  );
+  const flowSource = await client.callTool({
+    name: 'get_source',
+    arguments: { id: dynamics.observations[0].sourceId },
+  });
+  assert.equal(flowSource.isError, undefined);
+  const flowCompare = await client.callTool({
+    name: 'compare_geographies',
+    arguments: { metric: 'births', period: dynamics.observations[0].period },
+  });
+  assert.equal(
+    JSON.parse((flowCompare.content as { text: string }[])[0].text).observations.length,
+    18,
+  );
+  const unavailable = await client.callTool({
+    name: 'get_metric_series',
+    arguments: { geography: '141097', metric: 'births', frequency: 'month' },
+  });
+  assert.equal(JSON.parse((unavailable.content as { text: string }[])[0].text).unavailable, true);
+  const monthly = await client.callTool({
+    name: 'get_metric_series',
+    arguments: { geography: '141003', metric: 'births', frequency: 'month' },
+  });
+  assert.ok(JSON.parse((monthly.content as { text: string }[])[0].text).observations.length >= 319);
+  const age = await client.callTool({
+    name: 'get_metric',
+    arguments: { geography: '141003', metric: 'age_unknown' },
+  });
+  const ageData = JSON.parse((age.content as { text: string }[])[0].text);
+  assert.equal(ageData.observations.length, 1);
+  assert.equal(ageData.observations[0].period, '2025-01-01');
+  assert.equal(ageData.observations[0].value, 98789);
+  const ageCompare = await client.callTool({
+    name: 'compare_geographies',
+    arguments: { metric: 'age_under15', period: '2025-01-01' },
+  });
+  const ageCompared = JSON.parse((ageCompare.content as { text: string }[])[0].text);
+  assert.equal(ageCompared.observations.length, 18);
+  assert.equal(ageCompared.observations[0].rows.length, 15);
+  const ageMonthly = await client.callTool({
+    name: 'get_metric',
+    arguments: { geography: '141003', metric: 'age_under15', frequency: 'month' },
+  });
+  assert.equal(JSON.parse((ageMonthly.content as { text: string }[])[0].text).unavailable, true);
   const resource = await client.readResource({ uri: 'yokohama://wards/kohoku' });
   assert.equal(resource.contents.length, 1);
   const article = await client.readResource({ uri: 'yokohama://issues/population' });

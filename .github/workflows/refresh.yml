@@ -18,6 +18,8 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm data:refresh
+      - run: pnpm data:refresh:dynamics
+      - run: pnpm data:refresh:ages
       - run: pnpm data:validate
       - run: pnpm factcheck:check
       - name: Detect pending release

@@ -7,7 +7,8 @@ Cloudflareの静的配信を中心に、閲覧時のDB・AI実行をなくして
 
 現在は**公開β版**です。2024年1月〜2026年8月の32か月について、横浜市と18区の9指標・5,472観測値を収録しています。
 人口・世帯・密度の3つの問い、18区ページ、比較・検索、CSV/JSON、公開MCPをご利用いただけます。
-予算・政策の効果・年齢別人口・都市比較は未提供です。市民利用テストも未実施です。
+この版では、人口増減の内訳10指標・8,130値と、年齢構成5指標・2,470値も収録しています。市と18区の年別データは2000〜2025年、市の月別人口動態は2000年1月〜2026年7月です。
+予算・政策の効果・国内都市比較は未提供です。市民利用テストも未実施です。実環境への反映記録は[STATUS](docs/STATUS.md)を参照してください。
 
 [構想](docs/VISION.md) · [開発計画](docs/PLAN.md) · [実装・検証・公開状態](docs/STATUS.md) · [設計判断](docs/adr/0001-static-public-data-core.md)
 
@@ -30,7 +31,10 @@ pnpm test:e2e                       # PC/スマホ・アクセシビリティ・
 pnpm preview                        # Cloudflareのローカル配信 :8788
 pnpm mcp:dev                        # 公開データMCP :8789/mcp
 pnpm test:mcp                       # 別ターミナルから実MCP接続を検証
-pnpm data:refresh                   # 市公式のCSVを取得・検査。過去値変更では停止
+pnpm data:refresh                   # 人口残高CSVを取得・検査。過去値変更では停止
+pnpm data:refresh:dynamics          # 出生・死亡・転出入のCSVを取得・検査
+pnpm data:refresh:ages              # 各年1月1日の年齢別CSVを取得・集計
+pnpm test:dynamics-gates            # 原本改変・年全体の削除が公開検査で止まるか確認
 ```
 
 ## 構造
@@ -42,7 +46,7 @@ packages/core/    指標・地理・データ契約・問い合わせ
 packages/factcheck/ 主張・引用・署名・公開条件
 packages/ingestion/ 厳格なCSVパーサー
 scripts/          取得・原本照合・MCP実接続検査
-data/raw/         不変の原本CSV（ハッシュ名）
+data/raw/         不変の原本CSV・注記Excel（ハッシュ名）
 data/manifests/   取得記録の版
 data/published/   検証済み公開データ
 ```

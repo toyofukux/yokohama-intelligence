@@ -37,6 +37,7 @@ const themeScript = `(() => {
 interface Props {
   title: string;
   description?: string;
+  dataVersion?: string;
 }
 const {
   title,
@@ -48,7 +49,7 @@ const displayTitle = hold ? "この説明は確認中です" : title;
 const displayDescription = hold
   ? "根拠を再確認しています。訂正と確認状況をご覧ください。"
   : description;
-const reportVersion = `人口データ SHA-256:${populationVersion}; 文章:${editorialVerification.packetHash}`;
+const reportVersion = `${Astro.props.dataVersion ?? `人口データ SHA-256:${populationVersion}`}; 文章:${editorialVerification.packetHash}`;
 ---
 
 <!doctype html>

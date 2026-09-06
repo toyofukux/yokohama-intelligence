@@ -23,4 +23,28 @@ MCPのバージョン交渉は公式TypeScript SDKに委ねています。初期
 
 `yokohama://issues/population`、`yokohama://issues/households`、`yokohama://issues/density` は、Webと同じ公開文章・packetHash・確認状態・主張・検証/反証結果・出典を返します。AIによる確認を人間承認と読み替えません。
 
-Wranglerのカスタムビルドが `pnpm factcheck:check` を呼び、未検証の編集・署名不一致・期限切れを拒否します。公開済み版の期限は次の公開ビルドで検査し、Workerの起動時刻で数値API全体を止めません。詳しくは[文章の根拠検証](../FACT-CHECK.md)を参照してください。
+Wranglerのカスタムビルドが `pnpm data:validate && pnpm factcheck:check` を呼び、未検証の編集・署名不一致・期限切れを拒否します。公開済み版の期限は次の公開ビルドで検査し、Workerの起動時刻で数値API全体を止めません。詳しくは[文章の根拠検証](../FACT-CHECK.md)を参照してください。
+
+## 人口増減の内訳（今回の追加）
+
+既存5ツールに10指標を追加しました。実環境への反映状態は [STATUS](../STATUS.md) を参照してください。
+
+- `get_metric({"geography":"141003","metric":"total_change"})`：最新の暦年。人口残高の `population_change` とは別IDです。
+- `get_metric_series({"geography":"141003","metric":"births","frequency":"month"})`：市の月別出生数。
+- `compare_geographies({"metric":"social_change","period":"2025"})`：2025年1月〜12月の18区比較。
+- `get_source({"id":"取得したsourceId"})`：原典CSV・取得日・版・掲載ページ。
+
+人口動態の `get_metric` は `observations`（最新1件）・`definitions`・`sources`・`unit`・`periodBasis` を返します。
+人口残高の既存レスポンス形式は維持します。動態の期間は年 `YYYY` または月 `YYYY-MM`、人口残高の時点は `YYYY-MM-DD` です。
+動態の省略時の頻度は年です。区別の月次内訳や存在しない期間は `unavailable: true` と空配列で返し、0人を生成しません。
+増減を政策効果とみなすレスポンスは作りません。
+
+## 年齢構成（今回の追加）
+
+- `get_metric({"geography":"141003","metric":"age_unknown"})`：最新の1月1日の年齢不詳人口。
+- `get_metric_series({"geography":"141097","metric":"age_65plus"})`：港北区の年別推移。
+- `compare_geographies({"metric":"age_under15","period":"2025-01-01"})`：同じ1月1日の18区比較。
+
+年齢指標は `age_total`、`age_under15`、`age_15to64`、`age_65plus`、`age_unknown` の5つです。
+`frequency: "month"` は未提供を返します。時点は `YYYY-01-01`、暦年の動態 `YYYY` とは異なります。
+集計の根拠は `rows`（複数行）に保持します。割合の分母の説明も返します。3区分の人数を返すもので、就業者数や政策効果は推定しません。

@@ -46,6 +46,40 @@ try {
     console.log(`Unreviewed edit blocked: ${args.join(' ')}`);
   }
   await writeFile(path, original);
+  for (const [file, mutate, expected] of [
+    [
+      'dynamics.json',
+      (data: { observations: { frequency: string; period: string }[] }) => {
+        data.observations = data.observations.filter(
+          (o) => !(o.frequency === 'year' && o.period === '2025'),
+        );
+      },
+      /Dynamics differs from original/,
+    ],
+    [
+      'ages.json',
+      (data: { records: { sourceRows: { age_total: number[] } }[] }) => {
+        data.records[0].sourceRows.age_total = [999999];
+      },
+      /Published ages differ from original/,
+    ],
+  ] as const) {
+    const publishedPath = join(dir, 'data/published', file);
+    const originalData = await readFile(publishedPath, 'utf8');
+    const tampered = JSON.parse(originalData);
+    mutate(tampered);
+    await writeFile(publishedPath, JSON.stringify(tampered));
+    const blocked = spawnSync('pnpm', ['exec', 'astro', 'build', '--root', 'apps/web'], {
+      cwd: dir,
+      encoding: 'utf8',
+      timeout: 60000,
+    });
+    assert.equal(blocked.error, undefined);
+    assert.notEqual(blocked.status, 0);
+    assert.match(blocked.stdout + blocked.stderr, expected);
+    await writeFile(publishedPath, originalData);
+    console.log(`Numeric tampering blocked at direct Astro entry: ${file}`);
+  }
   const sources = JSON.parse(await readFile(join(dir, 'data/editorial/evidence.json'), 'utf8'));
   const raw = join(dir, sources.find((s: { artifact: unknown }) => s.artifact).artifact.path);
   await writeFile(raw, `${await readFile(raw, 'utf8')}\n<!-- tampered -->`);

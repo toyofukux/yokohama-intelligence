@@ -5,6 +5,9 @@ export function GET({ site }: APIContext) {
   const paths = [
     "/",
     "/issues/",
+    "/population-movement/",
+    "/age-structure/",
+    ...geographies.map((g) => `/population-movement/${g.slug}/`),
     "/wards/",
     "/sources/",
     "/about/",

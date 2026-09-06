@@ -68,6 +68,11 @@ const stats = [
     </section>
     <a class="action secondary" href="/wards/">ほかの区と比べる →</a>
     <section class="section">
+      <p>
+        <a class="action secondary" href={`/population-movement/${ward.slug}/`}
+          >{ward.name}の出生・死亡・転出入の内訳を見る →</a
+        >
+      </p>
       <h2>時点ごとの数字と出典</h2><p class="small muted">
         推計人口は住民基本台帳の登録者数とは異なります。国勢調査結果に基づく推計の改定を含む場合があります。
       </p><div class="table-wrap">

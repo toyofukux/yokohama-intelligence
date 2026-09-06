@@ -3,6 +3,18 @@ import Layout from "../layouts/Layout.astro";
 import { wards, metrics } from "../data";
 import { issues } from "../../../../packages/core/issues";
 const entries = [
+  {
+    title: "子ども・高齢者と年齢構成",
+    description:
+      "0〜14歳・15〜64歳・65歳以上・年齢不詳の人数と割合、18区比較、年別推移",
+    url: "/age-structure/",
+  },
+  {
+    title: "出生・死亡・転入・転出と人口増減の内訳",
+    description:
+      "自然増減・社会増減・市内移動・その他増減。2000年以降の年別比較と市の月別推移",
+    url: "/population-movement/",
+  },
   ...wards.map((w) => ({
     title: w.name + "の人口と暮らしのデータ",
     description: "人口・世帯数・人口密度・月次推移・地域比較",

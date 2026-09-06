@@ -1,0 +1,80 @@
+export {};
+type Record = {
+  geography: string;
+  period: string;
+  values: { age_total: number; [key: string]: number };
+};
+const payload = document.querySelector("#age-data");
+const period = document.querySelector<HTMLSelectElement>("#age-period");
+const geography = document.querySelector<HTMLSelectElement>("#age-geography");
+if (!payload?.textContent || !period || !geography)
+  throw new Error("Missing age data");
+const data: {
+  records: Record[];
+  geographies: { code: string; name: string; slug: string }[];
+  columns: string[];
+} = JSON.parse(payload.textContent);
+const periodInput = period,
+  geoInput = geography;
+const number = (value: number) => new Intl.NumberFormat("ja-JP").format(value);
+function fill(body: Element, records: Record[], history = false) {
+  body.replaceChildren();
+  for (const r of records) {
+    const tr = document.createElement("tr"),
+      label = document.createElement("th");
+    label.scope = "row";
+    if (history) label.textContent = r.period;
+    else {
+      const g = data.geographies.find((g) => g.code === r.geography)!;
+      const a = document.createElement("a");
+      a.textContent = g.name;
+      a.href = g.code === "141003" ? "/" : `/wards/${g.slug}/`;
+      label.append(a);
+    }
+    tr.append(label);
+    for (const metric of ["age_total", ...data.columns]) {
+      const td = document.createElement("td");
+      td.className = "numeric";
+      td.textContent =
+        metric === "age_total"
+          ? number(r.values[metric])
+          : `${number(r.values[metric])}（${((r.values[metric] / r.values.age_total) * 100).toFixed(1)}%）`;
+      tr.append(td);
+    }
+    body.append(tr);
+  }
+}
+function render() {
+  fill(
+    document.querySelector("#age-body")!,
+    data.records.filter((r) => r.period === periodInput.value),
+  );
+  fill(
+    document.querySelector("#age-history")!,
+    data.records
+      .filter((r) => r.geography === geoInput.value)
+      .sort((a, b) => b.period.localeCompare(a.period)),
+    true,
+  );
+  document.querySelector("#age-caption")!.textContent =
+    `${periodInput.value}現在の人数（人）と総人口に対する割合（%）。市・区の掲載順。`;
+  const name = data.geographies.find((g) => g.code === geoInput.value)!.name;
+  document.querySelector("#age-history-caption")!.textContent =
+    `${name}の各年1月1日現在の人数（人）と総人口に対する割合（%）。`;
+  document.querySelector("#age-status")!.textContent =
+    `${periodInput.value}現在の市区比較と、${name}の年別推移を表示しています。`;
+  const params = new URLSearchParams(location.search);
+  params.set("period", periodInput.value);
+  params.set("geography", geoInput.value);
+  history.replaceState(null, "", `?${params}`);
+}
+const params = new URLSearchParams(location.search);
+if ([...period.options].some((o) => o.value === params.get("period")))
+  period.value = params.get("period")!;
+if ([...geography.options].some((o) => o.value === params.get("geography")))
+  geography.value = params.get("geography")!;
+period.addEventListener("change", render);
+geography.addEventListener("change", render);
+if (params.has("period") || params.has("geography")) render();
+period.disabled = false;
+geography.disabled = false;
