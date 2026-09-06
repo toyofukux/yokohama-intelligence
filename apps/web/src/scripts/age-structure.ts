@@ -1,3 +1,4 @@
+import { stacks, lines } from "../chart-html";
 export {};
 type Record = {
   geography: string;
@@ -59,6 +60,30 @@ function render() {
   document.querySelector("#age-caption")!.textContent =
     `${periodInput.value}現在の人数（人）と総人口に対する割合（%）。市・区の掲載順。`;
   const name = data.geographies.find((g) => g.code === geoInput.value)!.name;
+  document.querySelector("#age-chart")!.innerHTML = stacks(
+    data.records
+      .filter((r) => r.period === periodInput.value)
+      .map((r) => ({
+        label: data.geographies.find((g) => g.code === r.geography)!.name,
+        values: data.columns.map((m) => r.values[m]),
+        total: r.values.age_total,
+      })),
+    `${periodInput.value}現在の年齢構成（%）`,
+  );
+  const chronological = data.records
+    .filter((r) => r.geography === geoInput.value)
+    .sort((a, b) => a.period.localeCompare(b.period));
+  document.querySelector("#age-history-chart")!.innerHTML = lines(
+    chronological.map((r) => r.period.slice(0, 4)),
+    data.columns.map((m, i) => ({
+      name: ["0〜14歳", "15〜64歳", "65歳以上", "年齢不詳"][i],
+      values: chronological.map(
+        (r) => (r.values[m] / r.values.age_total) * 100,
+      ),
+    })),
+    `${name}の年齢構成の推移（各年1月1日）`,
+    "%",
+  );
   document.querySelector("#age-history-caption")!.textContent =
     `${name}の各年1月1日現在の人数（人）と総人口に対する割合（%）。`;
   document.querySelector("#age-status")!.textContent =

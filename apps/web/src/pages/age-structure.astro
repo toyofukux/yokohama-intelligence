@@ -1,6 +1,8 @@
 ---
 import { createHash } from "node:crypto";
 import raw from "../../../../data/published/ages.json?raw";
+import { stacks, lines } from "../chart-html";
+import ChartStyle from "../components/ChartStyle.astro";
 import Layout from "../layouts/Layout.astro";
 import SourceLink from "../components/SourceLink.astro";
 import { ages } from "../ages-data";
@@ -52,6 +54,19 @@ const compact = ages.records.map((r) => ({
     <p id="age-status" role="status" aria-live="polite">
       {period}現在の人数と割合を表示しています。
     </p>
+    <ChartStyle />
+    <div
+      id="age-chart"
+      set:html={stacks(
+        rows.map((r) => ({
+          label: geographies.find((g) => g.code === r.geography)!.name,
+          values: columns.map((m) => r.values[m.id]),
+          total: r.values.age_total,
+        })),
+        `${period}現在の年齢構成（%）`,
+      )}
+    />
+    <h3>人数と割合を表で確認する</h3>
     <div
       class="table-wrap"
       tabindex="0"
@@ -114,6 +129,21 @@ const compact = ages.records.map((r) => ({
         }</select
       ></label
     >
+    <div
+      id="age-history-chart"
+      set:html={lines(
+        [...history].reverse().map((r) => r.period.slice(0, 4)),
+        columns.map((m) => ({
+          name: m.name.replace("の人口", ""),
+          values: [...history]
+            .reverse()
+            .map((r) => (r.values[m.id] / r.values.age_total) * 100),
+        })),
+        "横浜市の年齢構成の推移（各年1月1日）",
+        "%",
+      )}
+    />
+    <h3>年ごとの人数と割合を表で確認する</h3>
     <div
       class="table-wrap"
       tabindex="0"

@@ -1,4 +1,6 @@
 ---
+import { lines } from "../chart-html";
+import ChartStyle from "./ChartStyle.astro";
 import { dynamics, dynamicsMetrics, dynamicsPage } from "../dynamics-data";
 import { number } from "../data";
 import SourceLink from "./SourceLink.astro";
@@ -29,6 +31,21 @@ const get = (period: string, metric: string) =>
   observations.find((o) => o.period === period && o.metric === metric)!.value;
 ---
 
+<ChartStyle />
+<div
+  set:html={lines(
+    [...periods].reverse(),
+    columns.slice(0, 3).map((id) => ({
+      name: dynamicsMetrics.find((m) => m.id === id)!.name,
+      values: [...periods].reverse().map((p) => get(p, id)),
+    })),
+    frequency === "year"
+      ? "人口増減・自然増減・社会増減の年別推移"
+      : "人口増減・自然増減・社会増減の月別推移",
+    "人",
+  )}
+/>
+<h3>内訳の数値を表で確認する</h3>
 <div
   class="table-wrap"
   tabindex="0"
@@ -60,13 +77,15 @@ const get = (period: string, metric: string) =>
       >{
         periods.map((period) => (
           <tr>
-            <th scope="row">
-              {period}
-              {frequency === "year" ? "年" : ""}
-            </th>
-            {columns.map((id) => (
-              <td class="numeric">{number(get(period, id))}</td>
-            ))}
+            <>
+              <th scope="row">
+                {period}
+                {frequency === "year" ? "年" : ""}
+              </th>
+              {columns.map((id) => (
+                <td class="numeric">{number(get(period, id))}</td>
+              ))}
+            </>
           </tr>
         ))
       }</tbody

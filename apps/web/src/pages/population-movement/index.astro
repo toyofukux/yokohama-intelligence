@@ -1,6 +1,8 @@
 ---
 import { createHash } from "node:crypto";
 import raw from "../../../../../data/published/dynamics.json?raw";
+import { bars } from "../../chart-html";
+import ChartStyle from "../../components/ChartStyle.astro";
 import Layout from "../../layouts/Layout.astro";
 import SourceLink from "../../components/SourceLink.astro";
 import { dynamics, dynamicsMetrics, dynamicsPage } from "../../dynamics-data";
@@ -56,6 +58,18 @@ const version = createHash("sha256").update(raw).digest("hex");
     <p id="movement-status" role="status" aria-live="polite">
       {year}年・人口増減を表示しています。
     </p>
+    <ChartStyle />
+    <div
+      id="movement-chart"
+      set:html={bars(
+        rows.map((o) => ({
+          label: wards.find((w) => w.code === o.geography)!.name,
+          value: o.value,
+        })),
+        `${year}年の人口増減（人）`,
+      )}
+    />
+    <h3>数値を表で確認する</h3>
     <div class="table-wrap">
       <table>
         <caption id="movement-caption"

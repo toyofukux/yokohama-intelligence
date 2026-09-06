@@ -1,3 +1,4 @@
+import { bars } from "../chart-html";
 export {};
 const payload = document.querySelector("#movement-data");
 const metric = document.querySelector<HTMLSelectElement>("#movement-metric");
@@ -17,6 +18,14 @@ function render() {
   const rows = data.compact
     .filter((o) => o[0] === yearInput.value && o[2] === definition.id)
     .sort((a, b) => b[3] - a[3]);
+  document.querySelector("#movement-chart")!.innerHTML = bars(
+    rows.map((r) => ({
+      label: data.wards.find((w) => w.code === r[1])!.name,
+      value: r[3],
+    })),
+    `${yearInput.value}年の${definition.name}（人）`,
+    definition.id.endsWith("change"),
+  );
   const body = document.querySelector("#movement-body")!;
   body.replaceChildren();
   for (const row of rows) {
