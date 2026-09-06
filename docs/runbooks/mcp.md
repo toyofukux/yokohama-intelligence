@@ -18,3 +18,9 @@ MCPのバージョン交渉は公式TypeScript SDKに委ねています。初期
 
 ブラウザOriginは同一originのみ許可。通常のMCPクライアントはOriginなしで接続できます。
 入力は8KBまで。外部URLの取得、書き込み、サーバー側LLM呼び出しを持ちません。
+
+## 論点記事の根拠検証
+
+`yokohama://issues/population`、`yokohama://issues/households`、`yokohama://issues/density` は、Webと同じ公開文章・packetHash・確認状態・主張・検証/反証結果・出典を返します。AIによる確認を人間承認と読み替えません。
+
+Wranglerのカスタムビルドが `pnpm factcheck:check` を呼び、未検証の編集・署名不一致・期限切れを拒否します。公開済み版の期限は次の公開ビルドで検査し、Workerの起動時刻で数値API全体を止めません。詳しくは[文章の根拠検証](../FACT-CHECK.md)を参照してください。

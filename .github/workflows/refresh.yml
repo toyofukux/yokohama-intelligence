@@ -19,6 +19,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm data:refresh
       - run: pnpm data:validate
+      - run: pnpm factcheck:check
       - name: Detect pending release
         run: |
           if ! git diff --quiet -- data/published/; then

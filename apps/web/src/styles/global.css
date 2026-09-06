@@ -474,6 +474,9 @@
   .prose {
     line-height: 2;
   }
+  .prose details {
+    overflow-wrap: anywhere;
+  }
   .prose h2 {
     margin-top: 40px;
   }

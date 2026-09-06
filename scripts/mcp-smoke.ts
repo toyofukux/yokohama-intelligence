@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
+import { editorialVerification } from '../packages/core/issues.ts';
 
 const url = new URL(process.env.MCP_URL ?? 'http://127.0.0.1:8789/mcp');
 const client = new Client({ name: 'yokohama-smoke', version: '1.0.0' });
@@ -31,6 +32,11 @@ try {
   assert.equal(compared.observations.length, 18);
   const resource = await client.readResource({ uri: 'yokohama://wards/kohoku' });
   assert.equal(resource.contents.length, 1);
+  const article = await client.readResource({ uri: 'yokohama://issues/population' });
+  const reviewed = JSON.parse((article.contents[0] as { text: string }).text);
+  assert.deepEqual(reviewed.verification, editorialVerification);
+  assert.ok(reviewed.claims.length > 0);
+  assert.ok(reviewed.sources.every((s: { url: string }) => s.url.startsWith('https://')));
   const invalid = await client.callTool({
     name: 'get_metric',
     arguments: { geography: 'invalid', metric: 'population' },

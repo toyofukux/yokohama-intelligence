@@ -2,7 +2,12 @@ import { McpServer, ResourceTemplate } from '@modelcontextprotocol/sdk/server/mc
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
 import { z } from 'zod';
 import raw from '../../../data/published/population.json';
-import { issues } from '../../../packages/core/issues';
+import {
+  editorialSources,
+  editorialVerification,
+  issueEvidence,
+  issues,
+} from '../../../packages/core/issues';
 import { compare, fact, series } from '../../../packages/core/query';
 import { type Dataset, geographies, metrics } from '../../../packages/core/schema';
 
@@ -100,6 +105,36 @@ export function createServer() {
     },
   );
   server.registerResource(
+    'issue',
+    new ResourceTemplate('yokohama://issues/{slug}', {
+      list: async () => ({
+        resources: issues.map((i) => ({ uri: `yokohama://issues/${i.slug}`, name: i.title })),
+      }),
+    }),
+    {
+      description: 'Published issue text and evidence review. AI review is not human approval.',
+      mimeType: 'application/json',
+    },
+    (uri, { slug }) => {
+      const issue = issues.find((i) => i.slug === slug);
+      if (!issue) throw new Error('Unknown issue');
+      return {
+        contents: [
+          {
+            uri: uri.href,
+            mimeType: 'application/json',
+            text: JSON.stringify({
+              issue,
+              verification: editorialVerification,
+              sources: editorialSources,
+              claims: issueEvidence(issue.slug),
+            }),
+          },
+        ],
+      };
+    },
+  );
+  server.registerResource(
     'city',
     'yokohama://city',
     { description: 'City summary and available metric definitions', mimeType: 'application/json' },
@@ -111,6 +146,7 @@ export function createServer() {
           text: JSON.stringify({
             geographies,
             metrics,
+            editorialVerification,
             latest: fact(data, '141003', 'population'),
             generatedAt: data.generatedAt,
           }),
