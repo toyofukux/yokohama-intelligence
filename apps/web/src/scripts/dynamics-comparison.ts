@@ -25,6 +25,7 @@ function render() {
     })),
     `${yearInput.value}年の${definition.name}（人）`,
     definition.id.endsWith("change"),
+    definition.name,
   );
   const body = document.querySelector("#movement-body")!;
   body.replaceChildren();
