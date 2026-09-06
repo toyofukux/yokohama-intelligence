@@ -52,7 +52,7 @@ const checkedClaims = issueEvidence(issue.slug).filter(
     <h2>{issue.question}</h2><ul class="fact-list">
       <li data-claim-id={city.observation.id}>
         <span class="fact-type">事実</span>{city.statement}<SourceLink
-          href={city.source.url}
+          href={city.source.sourcePage}
         />
         <a
           class="small"
@@ -160,7 +160,8 @@ const checkedClaims = issueEvidence(issue.slug).filter(
                       <td>
                         <SourceLink
                           href={
-                            data.snapshots.find((s) => s.id === o.sourceId)!.url
+                            data.snapshots.find((s) => s.id === o.sourceId)!
+                              .sourcePage
                           }
                         />
                       </td>

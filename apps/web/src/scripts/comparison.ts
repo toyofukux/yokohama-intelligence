@@ -54,8 +54,8 @@ function render() {
     const citation = document.createElement("td");
     const link = document.createElement("a");
     link.className = "cite source-icon";
-    link.setAttribute("aria-label", "原典を開く");
-    link.title = "原典を開く";
+    link.setAttribute("aria-label", "横浜市の掲載ページを開く");
+    link.title = "横浜市の掲載ページを開く";
     link.target = "_blank";
     link.rel = "noopener noreferrer";
     const icon = document.createElement("span");
@@ -67,7 +67,7 @@ function render() {
       ),
     );
     if (!snap) throw new Error("Source missing");
-    link.href = snap.url;
+    link.href = snap.sourcePage;
     citation.append(link);
     tr.append(name, value, bar, citation);
     body.append(tr);

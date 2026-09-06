@@ -76,7 +76,8 @@ const compact = data.observations.map((o) => [
                     <td>
                       <SourceLink
                         href={
-                          data.snapshots.find((s) => s.id === o.sourceId)!.url
+                          data.snapshots.find((s) => s.id === o.sourceId)!
+                            .sourcePage
                         }
                       />
                     </td>

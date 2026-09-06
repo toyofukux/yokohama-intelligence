@@ -39,4 +39,7 @@ export function issueEvidence(slug: string) {
       challenge: review.report.challenge.judgments.find((j) => j.claimId === claim.id),
     }));
 }
-export const editorialSources = expected.sources;
+export const editorialSources = expected.sources.map((source) => ({
+  ...source,
+  title: source.url.endsWith('.csv') ? `${source.title}（CSVダウンロード）` : source.title,
+}));

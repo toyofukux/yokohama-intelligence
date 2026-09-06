@@ -46,7 +46,9 @@ const stats = [
                 <span>{unit}</span>
               </div>
               <SourceLink
-                href={data.snapshots.find((s) => s.id === o.sourceId)!.url}
+                href={
+                  data.snapshots.find((s) => s.id === o.sourceId)!.sourcePage
+                }
               />
             </>
           </div>
@@ -98,7 +100,8 @@ const stats = [
                     <td>
                       <SourceLink
                         href={
-                          data.snapshots.find((s) => s.id === o.sourceId)!.url
+                          data.snapshots.find((s) => s.id === o.sourceId)!
+                            .sourcePage
                         }
                       />
                     </td>
